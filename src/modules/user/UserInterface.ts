@@ -8,6 +8,11 @@ export interface IUserRequest {
   password: string;
 }
 
+export interface ISessionUserResponse {
+  user: IUserResponse;
+  token: string;
+}
+
 export interface IUserRepository {
   findByEmail(email: string): Promise<IUserResponse | null>;
   create(data: IUserRequest): Promise<void>;
