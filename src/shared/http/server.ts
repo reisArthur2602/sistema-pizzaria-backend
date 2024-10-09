@@ -5,7 +5,7 @@ import cors from "cors";
 
 import { router } from "./routes";
 import bodyParser from "body-parser";
-import { isError } from "./middlewares/isError";
+import { isError } from "../middlewares/isError";
 
 const app = express();
 
