@@ -1,5 +1,3 @@
-
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,4 +5,56 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(uuid())
+  email    String @unique
+  password String
+
+  @@map("users")
+}
+
+model Category {
+  id         String    @id @default(uuid())
+  name       String    @unique
+  created_at DateTime  @default(now())
+  Product    Product[]
+
+  @@map("categories")
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  category_id String
+  name        String   @unique
+  description String   @unique
+  image_url   String
+  price       Float
+  created_at  DateTime @default(now())
+
+  category Category @relation(fields: [category_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("products")
+}
+
+model Order {
+  id         String   @id @default(uuid())
+  table      Int
+  status     Boolean  @default(false)
+  draft      Boolean  @default(true)
+  created_at DateTime @default(now())
+  Item       Item[]
+
+  @@map("orders")
+}
+
+model Item {
+  id         String   @id @default(uuid())
+  order_id   String
+  quantity   Int
+  created_at DateTime @default(now())
+  order      Order    @relation(fields: [order_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("items")
 }
