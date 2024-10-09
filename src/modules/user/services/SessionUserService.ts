@@ -8,8 +8,8 @@ import {
   ISessionUserResponse,
   IUserRepository,
   IUserRequest,
-} from "../UserInterface";
-import { UserRepository } from "../UserRepository";
+} from "../repositories/IUserRepository";
+import { UserRepository } from "../repositories/UserRepository";
 
 export class SessionUserService {
   constructor() {
@@ -33,14 +33,10 @@ export class SessionUserService {
       throw new UnauthorizedError("A senha está incorreta");
     }
 
-    const token = sign(
-      { email: user.email },
-      process.env.JWT_SECRET as string,
-      {
-        subject: user.id,
-        expiresIn: "7d",
-      }
-    );
+    const token = sign({}, process.env.JWT_SECRET as string, {
+      subject: user.id,
+      expiresIn: "7d",
+    });
 
     return { user, token };
   }

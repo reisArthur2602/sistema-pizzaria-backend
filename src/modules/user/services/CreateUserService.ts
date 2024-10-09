@@ -1,7 +1,7 @@
 import { hash } from "bcrypt";
 import { BadRequestError } from "../../../shared/helpers/errors";
-import { IUserRepository, IUserRequest } from "../UserInterface";
-import { UserRepository } from "../UserRepository";
+import { IUserRepository, IUserRequest } from "../repositories/IUserRepository";
+import { UserRepository } from "../repositories/UserRepository";
 
 export class CreateUserService {
   constructor() {

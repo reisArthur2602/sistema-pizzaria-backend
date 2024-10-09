@@ -1,5 +1,5 @@
-import { db } from "../../shared/database/prisma-connection";
-import { IUserRepository, IUserRequest, IUserResponse } from "./UserInterface";
+import { db } from "../../../shared/database/prisma-connection";
+import { IUserRepository, IUserRequest, IUserResponse } from "./IUserRepository";
 
 export class UserRepository implements IUserRepository {
   async findByEmail(email: string): Promise<IUserResponse | null> {
