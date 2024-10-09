@@ -38,6 +38,7 @@ export class SessionUserService {
       process.env.JWT_SECRET as string,
       {
         subject: user.id,
+        expiresIn: "7d",
       }
     );
 

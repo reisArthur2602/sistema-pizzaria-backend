@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { CreateUserService } from "./services/CreateUserService";
 import { SessionUserService } from "./services/SessionUserService";
+import { DetailsUserService } from "./services/DetailsUserService";
 
 export class UserController {
   async create(req: Request, res: Response) {
@@ -20,6 +21,16 @@ export class UserController {
 
     const user = await sessionUserService.execute({ email, password });
 
+    res.status(200).json(user);
+  }
+
+  async details(req: Request, res: Response) {
+    const id = req.userId;
+
+    const detailsUserService = new DetailsUserService();
+
+    const user = await detailsUserService.execute(id);
+    
     res.status(200).json(user);
   }
 }

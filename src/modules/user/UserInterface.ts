@@ -15,5 +15,6 @@ export interface ISessionUserResponse {
 
 export interface IUserRepository {
   findByEmail(email: string): Promise<IUserResponse | null>;
+  findById(id: string): Promise<IUserResponse | null>;
   create(data: IUserRequest): Promise<void>;
 }
