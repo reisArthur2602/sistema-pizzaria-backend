@@ -1,9 +1,12 @@
+import { IItemResponse } from "../../item/repositories/IItemRepository";
+
 export interface IOrderResponse {
   id: string;
   table: number;
   status: boolean;
   draft: boolean;
   created_at: Date;
+  Item: IItemResponse[] | [];
 }
 
 export interface IOrderRepository {

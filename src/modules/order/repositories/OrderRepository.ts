@@ -3,18 +3,37 @@ import { IOrderRepository, IOrderResponse } from "./IOrderRepository";
 
 export class OrderRepository implements IOrderRepository {
   async list(): Promise<IOrderResponse[] | []> {
-    return await db.order.findMany({});
+    return await db.order.findMany({
+      include: { Item: { include: { product: true } } },
+    });
   }
 
   async findByTable(table: number): Promise<IOrderResponse | null> {
     return await db.order.findFirst({
       where: {
-        AND: [{ table: table }, { status: false }],
+        AND: [{ table }, { status: false }],
+      },
+      include: {
+        Item: {
+          include: {
+            product: true,
+          },
+        },
       },
     });
   }
+
   async findById(id: string): Promise<IOrderResponse | null> {
-    return await db.order.findUnique({ where: { id } });
+    return await db.order.findUnique({
+      where: { id },
+      include: {
+        Item: {
+          include: {
+            product: true,
+          },
+        },
+      },
+    });
   }
 
   async create(table: number): Promise<void> {
