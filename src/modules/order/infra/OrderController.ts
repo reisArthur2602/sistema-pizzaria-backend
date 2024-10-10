@@ -5,6 +5,7 @@ import { RemoveOrderService } from "../services/RemoveOrderService";
 import { SendOrderService } from "../services/SendOrderService";
 import { FinishOrderService } from "../services/FinishOrderService";
 import { ShowOrderService } from "../services/ShowOrderService";
+import { ListOrderService } from "../services/ListOrderService";
 
 export class OrderController {
   async create(req: Request, res: Response) {
@@ -51,8 +52,6 @@ export class OrderController {
     res.status(200).send({});
   }
 
-
-
   async show(req: Request, res: Response) {
     const showOrder = new ShowOrderService();
 
@@ -63,5 +62,11 @@ export class OrderController {
     res.status(200).json(order);
   }
 
+  async list(req: Request, res: Response) {
+    const listOrders = new ListOrderService();
 
+    const order = await listOrders.execute();
+
+    res.status(200).json(order);
+  }
 }

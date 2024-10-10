@@ -2,6 +2,10 @@ import { db } from "../../../shared/database/prisma-connection";
 import { IOrderRepository, IOrderResponse } from "./IOrderRepository";
 
 export class OrderRepository implements IOrderRepository {
+  async list(): Promise<IOrderResponse[] | []> {
+    return await db.order.findMany({});
+  }
+
   async findByTable(table: number): Promise<IOrderResponse | null> {
     return await db.order.findFirst({
       where: {
@@ -27,5 +31,4 @@ export class OrderRepository implements IOrderRepository {
   async finish(id: string): Promise<void> {
     await db.order.update({ where: { id }, data: { status: true } });
   }
-
 }

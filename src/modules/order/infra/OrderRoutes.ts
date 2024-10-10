@@ -6,6 +6,7 @@ export const orderRoutes = Router();
 const orderController = new OrderController();
 
 orderRoutes.post("/", isAuthenticated, orderController.create);
+orderRoutes.get("/", orderController.list);
 orderRoutes.get("/", orderController.show);
 orderRoutes.delete("/", isAuthenticated, orderController.remove);
 orderRoutes.patch("/send", isAuthenticated, orderController.send);

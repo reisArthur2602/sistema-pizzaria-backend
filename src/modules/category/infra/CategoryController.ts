@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { z } from "zod";
 import { CreateCategoryService } from "../services/CreateCategoryService";
-import { ListCategoryService } from "../services/ListCategoriesService";
+import { ListCategoryService } from "../services/ListCategoryService";
 
 export class CategoryController {
   async create(req: Request, res: Response) {
