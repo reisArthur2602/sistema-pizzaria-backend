@@ -6,3 +6,4 @@ export const categoryRoutes = Router();
 const categoryController = new CategoryController();
 
 categoryRoutes.post("/", isAuthenticated, categoryController.create);
+categoryRoutes.get("/", categoryController.list);

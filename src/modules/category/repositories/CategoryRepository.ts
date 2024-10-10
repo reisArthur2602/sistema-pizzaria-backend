@@ -1,5 +1,9 @@
 import { db } from "../../../shared/database/prisma-connection";
-import { ICategoryRepository, ICategoryResponse } from "./ICategoryRepository";
+import {
+  ICategoryIncludesProductsResponse,
+  ICategoryRepository,
+  ICategoryResponse,
+} from "./ICategoryRepository";
 
 export class CategoryRepository implements ICategoryRepository {
   async findByName(name: string): Promise<ICategoryResponse | null> {
@@ -7,5 +11,9 @@ export class CategoryRepository implements ICategoryRepository {
   }
   async create(name: string): Promise<void> {
     await db.category.create({ data: { name } });
+  }
+
+  async list(): Promise<ICategoryIncludesProductsResponse[] | []> {
+    return await db.category.findMany({ include: { Product: true } });
   }
 }
