@@ -1,4 +1,4 @@
-import { ConflictError } from "../../../shared/helpers/errors";
+import { ConflictError, NotFoundError } from "../../../shared/helpers/errors";
 import { CategoryRepository } from "../../category/repositories/CategoryRepository";
 import { ICategoryRepository } from "../../category/repositories/ICategoryRepository";
 import {
@@ -25,7 +25,7 @@ export class CreateProductService {
     const category = await this.categoryRepository.findById(data.category_id);
 
     if (!category) {
-      throw new ConflictError("A categoria não foi encontrada");
+      throw new NotFoundError("A categoria não foi encontrada");
     }
 
     await this.productRepository.create(data);

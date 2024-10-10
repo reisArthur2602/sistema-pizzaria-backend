@@ -7,6 +7,8 @@ export interface IOrderResponse {
 }
 
 export interface IOrderRepository {
-  create(table: number): Promise<void>;
   findByTable(table: number): Promise<IOrderResponse | null>;
+  findById(id: string): Promise<IOrderResponse | null>;
+  create(table: number): Promise<void>;
+  remove(id: string): Promise<void>;
 }
