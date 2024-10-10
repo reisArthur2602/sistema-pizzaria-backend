@@ -1,4 +1,4 @@
-import { NotFoundError } from "../../../shared/helpers/errors";
+import { BadRequestError, NotFoundError } from "../../../shared/helpers/errors";
 import { IOrderRepository } from "../repositories/IOrderRepository";
 import { OrderRepository } from "../repositories/OrderRepository";
 
@@ -13,6 +13,10 @@ export class SendOrderService {
 
     if (!order) {
       throw new NotFoundError("O pedido não foi encontrado");
+    }
+
+    if (order.Item.length === 0) {
+      throw new BadRequestError("Adicione items ao seu pedido");
     }
 
     await this.orderRepository.send(id);
