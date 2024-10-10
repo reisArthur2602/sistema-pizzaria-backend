@@ -1,7 +1,8 @@
 import { Router } from "express";
 import { CategoryController } from "./CategoryController";
+import { isAuthenticated } from "../../../shared/middlewares/isAuthenticated";
 
 export const categoryRoutes = Router();
 const categoryController = new CategoryController();
 
-categoryRoutes.post("/", categoryController.create);
+categoryRoutes.post("/", isAuthenticated, categoryController.create);
