@@ -1,7 +1,7 @@
 import { CategoryRepository } from "../repositories/CategoryRepository";
 import {
-  ICategoryIncludesProductsResponse,
   ICategoryRepository,
+  ICategoryResponse,
 } from "../repositories/ICategoryRepository";
 
 export class ListCategoryService {
@@ -10,7 +10,7 @@ export class ListCategoryService {
   }
   private categoryRepository: ICategoryRepository;
 
-  async execute(): Promise<ICategoryIncludesProductsResponse[] | []> {
+  async execute(): Promise<ICategoryResponse[] | []> {
     return await this.categoryRepository.list();
   }
 }

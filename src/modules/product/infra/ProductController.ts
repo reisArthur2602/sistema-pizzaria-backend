@@ -10,7 +10,7 @@ export class ProductController {
       .object({
         name: z
           .string({ message: "O campo nome é obrigatório" })
-          .toLowerCase()
+          .toLowerCase().trim()
           .min(3, { message: "O nome deve conter pelo menos 3 caracteres" }),
         category_id: z.string({
           message: "O campo categoria do produto é obrigatório",

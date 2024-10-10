@@ -4,16 +4,12 @@ export interface ICategoryResponse {
   id: string;
   name: string;
   created_at: Date;
-}
-
-export interface ICategoryIncludesProductsResponse {
-  id: string;
-  name: string;
-  created_at: Date;
+  Product: IProductResponse[] | [];
 }
 
 export interface ICategoryRepository {
   findByName(name: string): Promise<ICategoryResponse | null>;
+  findById(id: string): Promise<ICategoryResponse | null>;
   create(name: string): Promise<void>;
-  list(): Promise<ICategoryIncludesProductsResponse[] | []>;
+  list(): Promise<ICategoryResponse[] | []>;
 }
