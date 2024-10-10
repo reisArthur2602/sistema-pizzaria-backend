@@ -28,12 +28,13 @@ model Product {
   id          String   @id @default(uuid())
   category_id String
   name        String   @unique
-  description String   
+  description String
   image_url   String
   price       Float
   created_at  DateTime @default(now())
 
   category Category @relation(fields: [category_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Item     Item[]
 
   @@map("products")
 }
@@ -52,9 +53,11 @@ model Order {
 model Item {
   id         String   @id @default(uuid())
   order_id   String
+  product_id String
   quantity   Int
   created_at DateTime @default(now())
   order      Order    @relation(fields: [order_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  product    Product  @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("items")
 }
