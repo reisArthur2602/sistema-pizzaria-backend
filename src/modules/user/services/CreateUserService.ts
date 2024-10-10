@@ -1,5 +1,5 @@
 import { hash } from "bcrypt";
-import { BadRequestError } from "../../../shared/helpers/errors";
+import { ConflictError } from "../../../shared/helpers/errors";
 import { IUserRepository, IUserRequest } from "../repositories/IUserRepository";
 import { UserRepository } from "../repositories/UserRepository";
 
@@ -13,7 +13,7 @@ export class CreateUserService {
     const emailExists = await this.userRepository.findByEmail(email);
 
     if (emailExists) {
-      throw new BadRequestError("Este email já esta associado a um usuário");
+      throw new ConflictError("Este email já está associado a um usuário");
     }
 
     const passwordHash = await hash(password, 8);
