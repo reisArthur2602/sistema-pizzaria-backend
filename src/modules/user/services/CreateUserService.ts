@@ -9,7 +9,7 @@ export class CreateUserService {
   }
   private userRepository: IUserRepository;
 
-  async execute({ email, password }: IUserRequest) {
+  async execute({ email, password }: IUserRequest): Promise<void>  {
     const emailExists = await this.userRepository.findByEmail(email);
 
     if (emailExists) {
