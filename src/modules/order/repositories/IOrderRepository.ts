@@ -12,4 +12,5 @@ export interface IOrderRepository {
   create(table: number): Promise<void>;
   remove(id: string): Promise<void>;
   send(id: string): Promise<void>;
+  finish(id: string): Promise<void>;
 }

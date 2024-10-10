@@ -23,4 +23,9 @@ export class OrderRepository implements IOrderRepository {
   async send(id: string): Promise<void> {
     await db.order.update({ where: { id }, data: { draft: false } });
   }
+
+  async finish(id: string): Promise<void> {
+    await db.order.update({ where: { id }, data: { status: true } });
+  }
+
 }
