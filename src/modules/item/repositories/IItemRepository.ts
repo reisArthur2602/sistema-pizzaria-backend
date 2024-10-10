@@ -20,5 +20,5 @@ export interface IItemRepository {
   create(data: IItemRequest): Promise<void>;
   findById(id: string): Promise<IItemResponse | null>;
   updateQuantity(id: string, quantity: number): Promise<void>;
+  remove(id: string): Promise<void>;
 }
-

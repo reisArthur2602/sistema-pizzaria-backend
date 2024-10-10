@@ -6,7 +6,6 @@ import {
 } from "./IItemRepository";
 
 export class ItemRepository implements IItemRepository {
-    
   async findById(id: string): Promise<IItemResponse | null> {
     return await db.item.findUnique({
       where: { id },
@@ -20,5 +19,9 @@ export class ItemRepository implements IItemRepository {
 
   async updateQuantity(id: string, quantity: number): Promise<void> {
     await db.item.update({ where: { id }, data: { quantity } });
+  }
+
+  async remove(id: string): Promise<void> {
+    await db.item.delete({ where: { id } });
   }
 }

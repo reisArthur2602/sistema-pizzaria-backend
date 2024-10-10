@@ -7,3 +7,4 @@ export const itemRoutes = Router();
 const itemController = new ItemController();
 
 itemRoutes.post("/", isAuthenticated, itemController.create);
+itemRoutes.delete("/", isAuthenticated, itemController.remove);
