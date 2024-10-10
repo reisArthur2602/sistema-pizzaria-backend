@@ -7,3 +7,4 @@ const orderController = new OrderController();
 
 orderRoutes.post("/", isAuthenticated, orderController.create);
 orderRoutes.delete("/", isAuthenticated, orderController.remove);
+orderRoutes.patch("/", isAuthenticated, orderController.send);

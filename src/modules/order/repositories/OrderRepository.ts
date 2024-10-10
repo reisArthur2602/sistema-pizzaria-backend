@@ -20,4 +20,7 @@ export class OrderRepository implements IOrderRepository {
   async remove(id: string): Promise<void> {
     await db.order.delete({ where: { id } });
   }
+  async send(id: string): Promise<void> {
+    await db.order.update({ where: { id }, data: { draft: false } });
+  }
 }

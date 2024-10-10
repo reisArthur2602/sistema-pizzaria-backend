@@ -11,4 +11,5 @@ export interface IOrderRepository {
   findById(id: string): Promise<IOrderResponse | null>;
   create(table: number): Promise<void>;
   remove(id: string): Promise<void>;
+  send(id: string): Promise<void>;
 }
