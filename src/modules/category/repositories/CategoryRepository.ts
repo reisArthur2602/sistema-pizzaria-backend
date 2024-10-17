@@ -25,6 +25,9 @@ export class CategoryRepository implements ICategoryRepository {
   }
 
   async list(): Promise<ICategoryResponse[] | []> {
-    return await db.category.findMany({ include: { Product: true } });
+    return await db.category.findMany({
+      include: { Product: true },
+      orderBy: { created_at: "desc" },
+    });
   }
 }
