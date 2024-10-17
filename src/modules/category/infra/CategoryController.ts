@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { z } from "zod";
 import { CreateCategoryService } from "../services/CreateCategoryService";
 import { ListCategoryService } from "../services/ListCategoryService";
+import { DeleteCategoryService } from "../services/DeleteCategoryService";
 
 export class CategoryController {
   async create(req: Request, res: Response) {
@@ -27,5 +28,16 @@ export class CategoryController {
     const categories = await listCategory.execute();
 
     res.status(200).json(categories);
+  }
+
+  async delete(req: Request, res: Response) {
+    const id = req.query.id as string;
+    
+    const deleteCategory = new DeleteCategoryService();
+
+
+    await deleteCategory.execute(id);
+
+    res.status(200).json({});
   }
 }

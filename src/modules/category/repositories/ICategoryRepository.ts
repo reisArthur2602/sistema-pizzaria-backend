@@ -10,6 +10,7 @@ export interface ICategoryResponse {
 export interface ICategoryRepository {
   findByName(name: string): Promise<ICategoryResponse | null>;
   findById(id: string): Promise<ICategoryResponse | null>;
+  delete(id: string): Promise<void>;
   create(name: string): Promise<void>;
   list(): Promise<ICategoryResponse[] | []>;
 }

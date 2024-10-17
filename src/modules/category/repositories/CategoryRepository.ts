@@ -8,11 +8,16 @@ export class CategoryRepository implements ICategoryRepository {
       include: { Product: true },
     });
   }
+
   async findById(id: string): Promise<ICategoryResponse | null> {
     return await db.category.findUnique({
       where: { id },
       include: { Product: true },
     });
+  }
+
+  async delete(id: string): Promise<void> {
+    await db.category.delete({ where: { id } });
   }
 
   async create(name: string): Promise<void> {

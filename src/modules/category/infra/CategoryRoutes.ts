@@ -7,3 +7,4 @@ const categoryController = new CategoryController();
 
 categoryRoutes.post("/", isAuthenticated, categoryController.create);
 categoryRoutes.get("/", categoryController.list);
+categoryRoutes.delete("/", categoryController.delete);
