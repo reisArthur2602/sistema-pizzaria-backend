@@ -5,24 +5,26 @@ import { BadRequestError } from "../../../shared/helpers/errors";
 
 export class ProductController {
   async create(req: Request, res: Response) {
-    
     const body = z
-      .object({
-        name: z
-          .string({ message: "O campo nome é obrigatório" })
-          .toLowerCase().trim()
-          .min(3, { message: "O nome deve conter pelo menos 3 caracteres" }),
-        category_id: z.string({
-          message: "O campo categoria do produto é obrigatório",
-        }),
-        description: z.string({ message: "O campo descrição é obrigatório" }),
-        price: z.coerce.number({ message: "O campo preço é obrigatório" }),
-      })
-      .parse(req.body);
-
+    .object({
+      name: z
+      .string({ message: "O campo nome é obrigatório" })
+      .toLowerCase()
+      .trim()
+      .min(3, { message: "O nome deve conter pelo menos 3 caracteres" }),
+      category_id: z.string({
+        message: "O campo categoria do produto é obrigatório",
+      }),
+      description: z.string({ message: "O campo descrição é obrigatório" }),
+      price: z.coerce.number({ message: "O campo preço é obrigatório" }),
+    })
+    .parse(req.body);
+    
+    
     if (!req.file) {
       throw new BadRequestError("A imagem do produto é obrigatória");
     }
+    
 
     const createProduct = new CreateProductService();
 
