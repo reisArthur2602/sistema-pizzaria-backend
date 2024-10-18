@@ -18,6 +18,13 @@ export class ProductRepository implements IProductRepository {
     await db.product.create({ data });
   }
   async list(): Promise<IProductIncludesCategoryResponse[] | []> {
-    return await db.product.findMany({ include: { category: true } });
+    return await db.product.findMany({
+      include: { category: true },
+      orderBy: { created_at: "desc" },
+    });
+  }
+
+  async delete(id: string): Promise<void> {
+    await db.product.delete({ where: { id } });
   }
 }

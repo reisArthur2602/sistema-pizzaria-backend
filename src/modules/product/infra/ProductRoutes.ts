@@ -16,3 +16,4 @@ productRoutes.post(
   upload.single("file"),
   productController.create
 );
+productRoutes.delete("/", isAuthenticated, productController.delete);

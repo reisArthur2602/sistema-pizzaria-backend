@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { CreateProductService } from "../services/CreateProductService";
 import { BadRequestError } from "../../../shared/helpers/errors";
 import { ListProductService } from "../services/ListProductService";
+import { DeleteProductService } from "../services/DeleteProductService";
 
 export class ProductController {
   async create(req: Request, res: Response) {
@@ -37,6 +38,14 @@ export class ProductController {
 
     const products = await listProduct.execute();
 
-    res.status(201).send(products);
+    res.status(200).send(products);
+  }
+
+  async delete(req: Request, res: Response) {
+    const deleteProduct = new DeleteProductService();
+    const id = req.query.id as string;
+    const products = await deleteProduct.execute(id);
+
+    res.status(200).send({ products });
   }
 }
