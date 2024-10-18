@@ -1,5 +1,6 @@
 import { db } from "../../../shared/database/prisma-connection";
 import {
+  IProductIncludesCategoryResponse,
   IProductRepository,
   IProductRequest,
   IProductResponse,
@@ -15,5 +16,8 @@ export class ProductRepository implements IProductRepository {
   }
   async create(data: IProductRequest): Promise<void> {
     await db.product.create({ data });
+  }
+  async list(): Promise<IProductIncludesCategoryResponse[] | []> {
+    return await db.product.findMany({ include: { category: true } });
   }
 }

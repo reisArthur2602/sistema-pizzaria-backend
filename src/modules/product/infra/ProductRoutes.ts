@@ -8,6 +8,8 @@ export const productRoutes = Router();
 const productController = new ProductController();
 const upload = multer(uploadConfig.upload("./tmp"));
 
+productRoutes.get("/", productController.list);
+
 productRoutes.post(
   "/",
   isAuthenticated,
