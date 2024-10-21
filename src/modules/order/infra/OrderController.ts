@@ -5,7 +5,9 @@ import { RemoveOrderService } from "../services/RemoveOrderService";
 import { SendOrderService } from "../services/SendOrderService";
 import { FinishOrderService } from "../services/FinishOrderService";
 import { ShowOrderService } from "../services/ShowOrderService";
-import { ListOrderService } from "../services/ListOrderService";
+
+import { ListOrderInProductionCurrentService } from "../services/ListOrderInProductionCurrentService";
+import { ListOrderInProductionService } from "../services/ListOrderInProductionService";
 
 export class OrderController {
   async create(req: Request, res: Response) {
@@ -17,9 +19,9 @@ export class OrderController {
 
     const createOrder = new CreateOrderService();
 
-    await createOrder.execute(table);
+    const { id } = await createOrder.execute(table);
 
-    res.status(201).send({});
+    res.status(201).json({ id });
   }
 
   async remove(req: Request, res: Response) {
@@ -62,10 +64,19 @@ export class OrderController {
     res.status(200).json(order);
   }
 
-  async list(req: Request, res: Response) {
-    const listOrders = new ListOrderService();
+  async listInProduction(req: Request, res: Response) {
+    const listOrdersInProduction = new ListOrderInProductionService();
 
-    const order = await listOrders.execute();
+    const order = await listOrdersInProduction.execute();
+
+    res.status(200).json(order);
+  }
+
+  async listInProductionCurrent(req: Request, res: Response) {
+    const listOrdersInProductionCurrent =
+      new ListOrderInProductionCurrentService();
+
+    const order = await listOrdersInProductionCurrent.execute();
 
     res.status(200).json(order);
   }

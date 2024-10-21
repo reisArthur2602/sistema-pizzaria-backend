@@ -8,13 +8,15 @@ export class CreateOrderService {
   }
   private orderRepository: IOrderRepository;
 
-  async execute(table: number) {
+  async execute(table: number): Promise<{ id: string }> {
     const order = await this.orderRepository.findByTable(table);
-    
+
     if (order) {
       throw new ConflictError(`A mesa ${table} já está em uso`);
     }
 
-    await this.orderRepository.create(table);
+    const { id } = await this.orderRepository.create(table);
+
+    return { id };
   }
 }

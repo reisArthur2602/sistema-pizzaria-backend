@@ -1,10 +1,40 @@
+import { endOfDay, startOfDay } from "date-fns";
 import { db } from "../../../shared/database/prisma-connection";
 import { IOrderRepository, IOrderResponse } from "./IOrderRepository";
 
 export class OrderRepository implements IOrderRepository {
-  async list(): Promise<IOrderResponse[] | []> {
+  async listAll(): Promise<IOrderResponse[] | []> {
     return await db.order.findMany({
       include: { Item: { include: { product: true } } },
+      orderBy: { created_at: "asc" },
+    });
+  }
+
+  async listInProduction(): Promise<IOrderResponse[] | []> {
+    return await db.order.findMany({
+      where: { draft: false },
+      include: { Item: { include: { product: true } } },
+      orderBy: { created_at: "asc" },
+    });
+  }
+
+  async listInProductionCurrent(): Promise<IOrderResponse[] | []> {
+    const current = new Date();
+
+    return await db.order.findMany({
+      where: {
+        AND: [
+          { status: false, draft: false },
+          {
+            created_at: {
+              gte: startOfDay(current) && current,
+              lte: endOfDay(current),
+            },
+          },
+        ],
+      },
+      include: { Item: { include: { product: true } } },
+      orderBy: { created_at: "desc" },
     });
   }
 
@@ -36,8 +66,9 @@ export class OrderRepository implements IOrderRepository {
     });
   }
 
-  async create(table: number): Promise<void> {
-    await db.order.create({ data: { table } });
+  async create(table: number): Promise<{ id: string }> {
+    const { id } = await db.order.create({ data: { table } });
+    return { id };
   }
 
   async remove(id: string): Promise<void> {

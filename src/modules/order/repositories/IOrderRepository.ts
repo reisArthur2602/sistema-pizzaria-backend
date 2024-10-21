@@ -12,8 +12,10 @@ export interface IOrderResponse {
 export interface IOrderRepository {
   findByTable(table: number): Promise<IOrderResponse | null>;
   findById(id: string): Promise<IOrderResponse | null>;
-  list(): Promise<IOrderResponse[] | []>;
-  create(table: number): Promise<void>;
+  listAll(): Promise<IOrderResponse[] | []>;
+  listInProduction(): Promise<IOrderResponse[] | []>;
+  listInProductionCurrent(): Promise<IOrderResponse[] | []>;
+  create(table: number): Promise<{ id: string }>;
   remove(id: string): Promise<void>;
   send(id: string): Promise<void>;
   finish(id: string): Promise<void>;
