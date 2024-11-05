@@ -1,4 +1,5 @@
-import { IItemResponse } from "../item/repositories/IItemRepository";
+import { ItemResponse } from "../item/item.types";
+
 
 export type OrderResponse = {
   id: string;
@@ -6,7 +7,7 @@ export type OrderResponse = {
   status: boolean;
   draft: boolean;
   created_at: Date;
-  Item: IItemResponse[] | [];
+  Item: ItemResponse[] | [];
 };
 
 export interface IOrderRepository {

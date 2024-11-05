@@ -4,11 +4,11 @@ import { CreateProductService } from "./services/create-product.services";
 import { BadRequestError } from "../../shared/helpers/errors";
 import { ListProductService } from "./services/list-product.services";
 import { DeleteProductService } from "./services/delete-product.services";
-import { CraeteProductSchema } from "./product.schema";
+import { CreateProductSchema } from "./product.schema";
 
 export class ProductController {
   async create(req: Request, res: Response) {
-    const body = CraeteProductSchema.parse(req.body);
+    const body = CreateProductSchema.parse(req.body);
 
     if (!req.file) {
       throw new BadRequestError("A imagem do produto é obrigatória");

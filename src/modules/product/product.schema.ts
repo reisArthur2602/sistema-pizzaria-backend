@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const CraeteProductSchema = z.object({
+export const CreateProductSchema = z.object({
   name: z
     .string()
     .toLowerCase()

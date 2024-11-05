@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { isAuthenticated } from "../../../shared/middlewares/isAuthenticated";
-import { ItemController } from "./ItemController";
+
+import { ItemController } from "./item.controller";
+import { isAuthenticated } from "../../shared/middlewares/isAuthenticated";
 
 export const itemRoutes = Router();
 

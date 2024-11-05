@@ -3,8 +3,8 @@ import { IOrderRepository } from "../../order/order.types";
 import { OrderRepository } from "../../order/order.repository";
 import { IProductRepository } from "../../product/product.types";
 import { ProductRepository } from "../../product/product.repository";
-import { IItemRepository, IItemRequest } from "../repositories/IItemRepository";
-import { ItemRepository } from "../repositories/ItemRepository";
+import { ItemRepository } from "../item.repository";
+import { IItemRepository, ItemRequest } from "../item.types";
 
 export class CreateItemService {
   constructor() {
@@ -16,13 +16,13 @@ export class CreateItemService {
   private productRepository: IProductRepository;
   private itemRepository: IItemRepository;
 
-  async execute(data: IItemRequest) {
+  async execute(data: ItemRequest) {
     const order = await this.orderRepository.findById(data.order_id);
 
     if (!order) {
       throw new NotFoundError("O pedido não foi encontrado");
     }
-    
+
     const product = await this.productRepository.findById(data.product_id);
 
     if (!product) {
@@ -34,12 +34,11 @@ export class CreateItemService {
     );
 
     if (findItem) {
-    return await this.itemRepository.updateQuantity(
+      return await this.itemRepository.updateQuantity(
         findItem.id,
         findItem.quantity + data.quantity
       );
     }
-   
 
     await this.itemRepository.create(data);
   }

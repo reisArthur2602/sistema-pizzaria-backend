@@ -1,6 +1,6 @@
 import { NotFoundError } from "../../../shared/helpers/errors";
-import { IItemRepository, IItemRequest } from "../repositories/IItemRepository";
-import { ItemRepository } from "../repositories/ItemRepository";
+import { ItemRepository } from "../item.repository";
+import { IItemRepository } from "../item.types";
 
 export class RemoveItemService {
   constructor() {
