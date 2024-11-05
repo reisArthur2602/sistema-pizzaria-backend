@@ -1,6 +1,7 @@
 import { NotFoundError } from "../../../shared/helpers/errors";
-import { CategoryRepository } from "../repositories/CategoryRepository";
-import { ICategoryRepository } from "../repositories/ICategoryRepository";
+import { CategoryRepository } from "../category.repository";
+import { ICategoryRepository } from "../category.types";
+
 
 export class DeleteCategoryService {
   constructor() {

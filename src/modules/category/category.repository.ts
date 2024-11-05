@@ -1,15 +1,15 @@
-import { db } from "../../../shared/database/prisma-connection";
-import { ICategoryRepository, ICategoryResponse } from "./ICategoryRepository";
+import { db } from "../../shared/database/prisma-connection";
+import { CategoryResponse, ICategoryRepository } from "./category.types";
 
 export class CategoryRepository implements ICategoryRepository {
-  async findByName(name: string): Promise<ICategoryResponse | null> {
+  async findByName(name: string): Promise<CategoryResponse | null> {
     return await db.category.findUnique({
       where: { name },
       include: { Product: true },
     });
   }
 
-  async findById(id: string): Promise<ICategoryResponse | null> {
+  async findById(id: string): Promise<CategoryResponse | null> {
     return await db.category.findUnique({
       where: { id },
       include: { Product: true },
@@ -24,7 +24,7 @@ export class CategoryRepository implements ICategoryRepository {
     await db.category.create({ data: { name } });
   }
 
-  async list(): Promise<ICategoryResponse[] | []> {
+  async list(): Promise<CategoryResponse[] | []> {
     return await db.category.findMany({
       include: { Product: true },
       orderBy: { created_at: "desc" },

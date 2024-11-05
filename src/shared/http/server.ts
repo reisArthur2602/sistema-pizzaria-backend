@@ -4,7 +4,6 @@ import express from "express";
 import cors from "cors";
 import path from "path";
 
-
 import bodyParser from "body-parser";
 import { ErrorHandler } from "../middlewares/errosHandler";
 import { MainRouter } from "./main.routes";

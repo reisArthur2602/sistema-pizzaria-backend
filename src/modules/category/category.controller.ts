@@ -1,19 +1,13 @@
 import { Request, Response } from "express";
-import { z } from "zod";
-import { CreateCategoryService } from "../services/CreateCategoryService";
-import { ListCategoryService } from "../services/ListCategoryService";
-import { DeleteCategoryService } from "../services/DeleteCategoryService";
+
+import { CreateCategoryService } from "./services/create-category.services";
+import { ListCategoryService } from "./services/list-category.services";
+import { DeleteCategoryService } from "./services/delete-category.services";
+import { CreateCategorySchema } from "./category.schema";
 
 export class CategoryController {
   async create(req: Request, res: Response) {
-    const { name } = z
-      .object({
-        name: z
-          .string({ message: "O campo nome é obrigatório" })
-          .toLowerCase()
-          .min(3, { message: "O nome deve conter pelo menos 3 caracteres" }),
-      })
-      .parse(req.body);
+    const { name } = CreateCategorySchema.parse(req.body);
 
     const createCategory = new CreateCategoryService();
 
@@ -32,9 +26,8 @@ export class CategoryController {
 
   async delete(req: Request, res: Response) {
     const id = req.query.id as string;
-    
-    const deleteCategory = new DeleteCategoryService();
 
+    const deleteCategory = new DeleteCategoryService();
 
     await deleteCategory.execute(id);
 
