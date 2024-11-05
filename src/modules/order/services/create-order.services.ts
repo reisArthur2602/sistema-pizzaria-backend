@@ -1,6 +1,6 @@
 import { ConflictError } from "../../../shared/helpers/errors";
-import { IOrderRepository } from "../repositories/IOrderRepository";
-import { OrderRepository } from "../repositories/OrderRepository";
+import { IOrderRepository } from "../order.types";
+import { OrderRepository } from "../order.repository";
 
 export class CreateOrderService {
   constructor() {

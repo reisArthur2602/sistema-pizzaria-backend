@@ -1,9 +1,8 @@
+import { ProductRepository } from "../product.repository";
 import {
-  IProductIncludesCategoryResponse,
   IProductRepository,
-  IProductResponse,
-} from "../repositories/IProductRepository";
-import { ProductRepository } from "../repositories/ProductRepository";
+  ProductIncludesCategoryResponse,
+} from "../product.types";
 
 export class ListProductService {
   constructor() {
@@ -11,7 +10,7 @@ export class ListProductService {
   }
   private productRepository: IProductRepository;
 
-  async execute(): Promise<IProductIncludesCategoryResponse[] | []> {
+  async execute(): Promise<ProductIncludesCategoryResponse[] | []> {
     return await this.productRepository.list();
   }
 }

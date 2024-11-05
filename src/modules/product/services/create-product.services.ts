@@ -1,11 +1,13 @@
 import { ConflictError, NotFoundError } from "../../../shared/helpers/errors";
-import { CategoryRepository } from "../../category/repositories/CategoryRepository";
-import { ICategoryRepository } from "../../category/repositories/ICategoryRepository";
+
 import {
   IProductRepository,
-  IProductRequest,
-} from "../repositories/IProductRepository";
-import { ProductRepository } from "../repositories/ProductRepository";
+  ProductRequest,
+
+} from "../product.types";
+import { ProductRepository } from "../product.repository";
+import { CategoryRepository } from "../../category/category.repository";
+import { ICategoryRepository } from "../../category/category.types";
 
 export class CreateProductService {
   constructor() {
@@ -15,7 +17,7 @@ export class CreateProductService {
   private productRepository: IProductRepository;
   private categoryRepository: ICategoryRepository;
 
-  async execute(data: IProductRequest): Promise<void> {
+  async execute(data: ProductRequest): Promise<void> {
     const product = await this.productRepository.findByName(data.name);
 
     if (product) {

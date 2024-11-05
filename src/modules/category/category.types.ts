@@ -1,10 +1,11 @@
-import { IProductResponse } from "../product/repositories/IProductRepository";
+import { ProductResponse } from "../product/product.types";
+
 
 export type CategoryResponse = {
   id: string;
   name: string;
   created_at: Date;
-  Product: IProductResponse[] | [];
+  Product: ProductResponse[] | [];
 };
 
 export interface ICategoryRepository {

@@ -1,9 +1,10 @@
 import { Router } from "express";
 import { userRoutes } from "../../modules/user/user.routes";
-import { productRoutes } from "../../modules/product/infra/ProductRoutes";
-import { orderRoutes } from "../../modules/order/infra/OrderRoutes";
+
+import { orderRoutes } from "../../modules/order/order.routes";
 import { itemRoutes } from "../../modules/item/infra/ItemRoutes";
 import { categoryRoutes } from "../../modules/category/category.routes";
+import { productRoutes } from "../../modules/product/product.routes";
 
 const MainRouter = Router();
 

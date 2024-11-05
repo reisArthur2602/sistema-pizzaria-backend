@@ -1,5 +1,5 @@
-import { IOrderResponse } from "../../order/repositories/IOrderRepository";
-import { IProductResponse } from "../../product/repositories/IProductRepository";
+import { IOrderResponse } from "../../order/order.types";
+import { IProductResponse } from "../../product/product.types";
 
 export interface IItemRequest {
   order_id: string;

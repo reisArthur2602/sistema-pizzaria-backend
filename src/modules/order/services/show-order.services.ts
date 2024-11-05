@@ -1,8 +1,8 @@
 import { NotFoundError } from "../../../shared/helpers/errors";
-import { IOrderRepository } from "../repositories/IOrderRepository";
-import { OrderRepository } from "../repositories/OrderRepository";
+import { IOrderRepository } from "../order.types";
+import { OrderRepository } from "../order.repository";
 
-export class FinishOrderService {
+export class ShowOrderService {
   constructor() {
     this.orderRepository = new OrderRepository();
   }
@@ -15,6 +15,6 @@ export class FinishOrderService {
       throw new NotFoundError("O pedido não foi encontrado");
     }
 
-    await this.orderRepository.finish(id);
+    return order;
   }
 }

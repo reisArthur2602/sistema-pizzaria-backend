@@ -1,8 +1,8 @@
 import { NotFoundError } from "../../../shared/helpers/errors";
-import { IOrderRepository } from "../../order/repositories/IOrderRepository";
-import { OrderRepository } from "../../order/repositories/OrderRepository";
-import { IProductRepository } from "../../product/repositories/IProductRepository";
-import { ProductRepository } from "../../product/repositories/ProductRepository";
+import { IOrderRepository } from "../../order/order.types";
+import { OrderRepository } from "../../order/order.repository";
+import { IProductRepository } from "../../product/product.types";
+import { ProductRepository } from "../../product/product.repository";
 import { IItemRepository, IItemRequest } from "../repositories/IItemRepository";
 import { ItemRepository } from "../repositories/ItemRepository";
 

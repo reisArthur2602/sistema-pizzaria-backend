@@ -1,5 +1,4 @@
-
-export interface IProductResponse {
+export type ProductResponse = {
   id: string;
   name: string;
   category_id: string;
@@ -7,16 +6,16 @@ export interface IProductResponse {
   image_url: string;
   price: number;
   created_at: Date;
-}
-export interface IProductRequest {
+};
+export type ProductRequest = {
   category_id: string;
   name: string;
   description: string;
   image_url: string;
   price: number;
-}
+};
 
-export interface IProductIncludesCategoryResponse {
+export type ProductIncludesCategoryResponse = {
   id: string;
   name: string;
   category_id: string;
@@ -29,12 +28,12 @@ export interface IProductIncludesCategoryResponse {
     id: string;
     created_at: Date;
   };
-}
+};
 
 export interface IProductRepository {
-  list(): Promise<IProductIncludesCategoryResponse[] | []>;
-  findByName(name: string): Promise<IProductResponse | null>;
-  findById(id: string): Promise<IProductResponse | null>;
-  create(data: IProductRequest): Promise<void>;
+  list(): Promise<ProductIncludesCategoryResponse[] | []>;
+  findByName(name: string): Promise<ProductResponse | null>;
+  findById(id: string): Promise<ProductResponse | null>;
+  create(data: ProductRequest): Promise<void>;
   delete(id: string): Promise<void>;
 }

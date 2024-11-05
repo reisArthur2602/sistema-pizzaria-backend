@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
-import { CreateOrderService } from "../services/CreateOrderService";
+import { CreateOrderService } from "./services/create-order.services";
 import { z } from "zod";
-import { RemoveOrderService } from "../services/RemoveOrderService";
-import { SendOrderService } from "../services/SendOrderService";
-import { FinishOrderService } from "../services/FinishOrderService";
-import { ShowOrderService } from "../services/ShowOrderService";
+import { RemoveOrderService } from "./services/remove-order.services";
+import { SendOrderService } from "./services/send-order.services";
+import { FinishOrderService } from "./services/finish-order.services";
+import { ShowOrderService } from "./services/show-order.services";
 
-import { ListOrderInProductionCurrentService } from "../services/ListOrderInProductionCurrentService";
-import { ListOrderInProductionService } from "../services/ListOrderInProductionService";
+import { ListOrderInProductionCurrentService } from "./services/list-order-in-production-current.services";
+import { ListOrderInProductionService } from "./services/list-order-in-production.services";
 
 export class OrderController {
   async create(req: Request, res: Response) {

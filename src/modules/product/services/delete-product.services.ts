@@ -1,9 +1,7 @@
 import { NotFoundError } from "../../../shared/helpers/errors";
-import {
-  IProductIncludesCategoryResponse,
-  IProductRepository,
-} from "../repositories/IProductRepository";
-import { ProductRepository } from "../repositories/ProductRepository";
+
+import { ProductRepository } from "../product.repository";
+import { IProductRepository } from "../product.types";
 
 export class DeleteProductService {
   constructor() {

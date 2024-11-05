@@ -1,16 +1,16 @@
 import { endOfDay, startOfDay } from "date-fns";
-import { db } from "../../../shared/database/prisma-connection";
-import { IOrderRepository, IOrderResponse } from "./IOrderRepository";
+import { db } from "../../shared/database/prisma-connection";
+import { IOrderRepository, OrderResponse } from "./order.types";
 
 export class OrderRepository implements IOrderRepository {
-  async listAll(): Promise<IOrderResponse[] | []> {
+  async listAll(): Promise<OrderResponse[] | []> {
     return await db.order.findMany({
       include: { Item: { include: { product: true } } },
       orderBy: { created_at: "asc" },
     });
   }
 
-  async listInProduction(): Promise<IOrderResponse[] | []> {
+  async listInProduction(): Promise<OrderResponse[] | []> {
     return await db.order.findMany({
       where: { draft: false },
       include: { Item: { include: { product: true } } },
@@ -18,7 +18,7 @@ export class OrderRepository implements IOrderRepository {
     });
   }
 
-  async listInProductionCurrent(): Promise<IOrderResponse[] | []> {
+  async listInProductionCurrent(): Promise<OrderResponse[] | []> {
     const current = new Date();
 
     return await db.order.findMany({
@@ -38,7 +38,7 @@ export class OrderRepository implements IOrderRepository {
     });
   }
 
-  async findByTable(table: number): Promise<IOrderResponse | null> {
+  async findByTable(table: number): Promise<OrderResponse | null> {
     return await db.order.findFirst({
       where: {
         AND: [{ table }, { status: false }],
@@ -53,7 +53,7 @@ export class OrderRepository implements IOrderRepository {
     });
   }
 
-  async findById(id: string): Promise<IOrderResponse | null> {
+  async findById(id: string): Promise<OrderResponse | null> {
     return await db.order.findUnique({
       where: { id },
       include: {

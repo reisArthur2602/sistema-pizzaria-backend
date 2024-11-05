@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { ProductController } from "./ProductController";
+import { ProductController } from "./product.controller";
 import multer from "multer";
-import uploadConfig from "../../../shared/config/multer";
-import { isAuthenticated } from "../../../shared/middlewares/isAuthenticated";
+import uploadConfig from "../../shared/config/multer";
+import { isAuthenticated } from "../../shared/middlewares/isAuthenticated";
 
 export const productRoutes = Router();
 const productController = new ProductController();
