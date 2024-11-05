@@ -4,9 +4,10 @@ import express from "express";
 import cors from "cors";
 import path from "path";
 
-import { router } from "./routes";
+
 import bodyParser from "body-parser";
 import { ErrorHandler } from "../middlewares/errosHandler";
+import { MainRouter } from "./main.routes";
 
 const app = express();
 
@@ -14,7 +15,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors());
-app.use(router);
+app.use(MainRouter);
 
 app.use(
   "/files",

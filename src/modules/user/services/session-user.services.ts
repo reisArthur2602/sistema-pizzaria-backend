@@ -4,12 +4,13 @@ import {
   NotFoundError,
   UnauthorizedError,
 } from "../../../shared/helpers/errors";
+
+import { UserRepository } from "../user.repository";
 import {
-  ISessionUserResponse,
   IUserRepository,
-  IUserRequest,
-} from "../repositories/IUserRepository";
-import { UserRepository } from "../repositories/UserRepository";
+  SessionUserResponse,
+  UserRequest,
+} from "../user.types";
 
 export class SessionUserService {
   constructor() {
@@ -20,7 +21,7 @@ export class SessionUserService {
   async execute({
     email,
     password,
-  }: IUserRequest): Promise<ISessionUserResponse> {
+  }: UserRequest): Promise<SessionUserResponse> {
     const user = await this.userRepository.findByEmail(email);
 
     if (!user) {

@@ -1,7 +1,7 @@
 import { hash } from "bcrypt";
 import { BadRequestError } from "../../../shared/helpers/errors";
-import { IUserRepository, IUserRequest, IUserResponse } from "../repositories/IUserRepository";
-import { UserRepository } from "../repositories/UserRepository";
+import { IUserRepository, UserResponse, } from "../user.types";
+import { UserRepository } from "../user.repository";
 
 export class DetailsUserService {
   constructor() {
@@ -9,7 +9,7 @@ export class DetailsUserService {
   }
   private userRepository: IUserRepository;
 
-  async execute(id: string): Promise<IUserResponse | null> {
+  async execute(id: string): Promise<UserResponse | null> {
     return await this.userRepository.findById(id);
   }
 }

@@ -1,16 +1,16 @@
 import { Router } from "express";
-import { userRoutes } from "../../modules/user/infra/UserRoutes";
+import { userRoutes } from "../../modules/user/user.routes";
 import { categoryRoutes } from "../../modules/category/infra/CategoryRoutes";
 import { productRoutes } from "../../modules/product/infra/ProductRoutes";
 import { orderRoutes } from "../../modules/order/infra/OrderRoutes";
 import { itemRoutes } from "../../modules/item/infra/ItemRoutes";
 
-const router = Router();
+const MainRouter = Router();
 
-router.use("/user", userRoutes);
-router.use("/category", categoryRoutes);
-router.use("/product", productRoutes);
-router.use("/order", orderRoutes);
-router.use("/order/item", itemRoutes);
+MainRouter.use("/user", userRoutes);
+MainRouter.use("/category", categoryRoutes);
+MainRouter.use("/product", productRoutes);
+MainRouter.use("/order", orderRoutes);
+MainRouter.use("/order/item", itemRoutes);
 
-export { router };
+export { MainRouter };

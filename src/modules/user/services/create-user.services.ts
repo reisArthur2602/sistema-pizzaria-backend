@@ -1,7 +1,7 @@
 import { hash } from "bcrypt";
 import { ConflictError } from "../../../shared/helpers/errors";
-import { IUserRepository, IUserRequest } from "../repositories/IUserRepository";
-import { UserRepository } from "../repositories/UserRepository";
+import { IUserRepository, UserRequest } from "../user.types";
+import { UserRepository } from "../user.repository";
 
 export class CreateUserService {
   constructor() {
@@ -9,7 +9,7 @@ export class CreateUserService {
   }
   private userRepository: IUserRepository;
 
-  async execute({ email, password }: IUserRequest): Promise<void>  {
+  async execute({ email, password }: UserRequest): Promise<void> {
     const emailExists = await this.userRepository.findByEmail(email);
 
     if (emailExists) {
