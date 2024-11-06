@@ -5,7 +5,7 @@ export type CategoryResponse = {
   id: string;
   name: string;
   created_at: Date;
-  Product: ProductResponse[] | [];
+  Product?: ProductResponse[] | [];
 };
 
 export interface ICategoryRepository {

@@ -1,4 +1,5 @@
 import { NotFoundError } from "../../../shared/helpers/errors";
+import { CATEGORY_MESSAGES } from "../category.messages";
 import { CategoryRepository } from "../category.repository";
 import { ICategoryRepository } from "../category.types";
 
@@ -10,10 +11,10 @@ export class DeleteCategoryService {
   private categoryRepository: ICategoryRepository;
 
   async execute(id: string): Promise<void> {
-    const category = await this.categoryRepository.findById(id);
+    const hasCategoryWithId = await this.categoryRepository.findById(id);
 
-    if (!category) {
-      throw new NotFoundError("A categoria não foi encontrada!");
+    if (!hasCategoryWithId) {
+      throw new NotFoundError(CATEGORY_MESSAGES.CATEGORY_NOT_FOUND);
     }
 
     await this.categoryRepository.delete(id);

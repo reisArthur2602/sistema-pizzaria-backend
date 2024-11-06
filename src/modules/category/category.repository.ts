@@ -5,14 +5,12 @@ export class CategoryRepository implements ICategoryRepository {
   async findByName(name: string): Promise<CategoryResponse | null> {
     return await db.category.findUnique({
       where: { name },
-      include: { Product: true },
     });
   }
 
   async findById(id: string): Promise<CategoryResponse | null> {
     return await db.category.findUnique({
       where: { id },
-      include: { Product: true },
     });
   }
 

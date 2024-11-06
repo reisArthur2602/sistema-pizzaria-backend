@@ -1,4 +1,5 @@
 import { ConflictError } from "../../../shared/helpers/errors";
+import { CATEGORY_MESSAGES } from "../category.messages";
 import { CategoryRepository } from "../category.repository";
 import { ICategoryRepository } from "../category.types";
 
@@ -9,10 +10,10 @@ export class CreateCategoryService {
   private categoryRepository: ICategoryRepository;
 
   async execute(name: string): Promise<void> {
-    const category = await this.categoryRepository.findByName(name);
+    const hasCategoryWithName = await this.categoryRepository.findByName(name);
 
-    if (category) {
-      throw new ConflictError("Este nome já está associado a uma categoria");
+    if (hasCategoryWithName) {
+      throw new ConflictError(CATEGORY_MESSAGES.NAME_ALREADY_ASSOCIATED);
     }
 
     await this.categoryRepository.create(name);
