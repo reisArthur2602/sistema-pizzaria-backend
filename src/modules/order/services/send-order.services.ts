@@ -1,6 +1,7 @@
 import { BadRequestError, NotFoundError } from "../../../shared/helpers/errors";
 import { IOrderRepository } from "../order.types";
 import { OrderRepository } from "../order.repository";
+import { ORDER_MESSAGES } from "../order.messages";
 
 export class SendOrderService {
   constructor() {
@@ -12,11 +13,13 @@ export class SendOrderService {
     const order = await this.orderRepository.findById(id);
 
     if (!order) {
-      throw new NotFoundError("O pedido não foi encontrado");
+      throw new NotFoundError(ORDER_MESSAGES.ORDER_NOT_FOUND);
     }
 
-    if (order.Item.length === 0) {
-      throw new BadRequestError("Adicione items ao seu pedido");
+    const orderIsEmpyt = order.Item.length === 0;
+
+    if (orderIsEmpyt) {
+      throw new BadRequestError(ORDER_MESSAGES.ADD_ITEMS_TO_ORDER);
     }
 
     await this.orderRepository.send(id);

@@ -1,6 +1,7 @@
 import { ConflictError } from "../../../shared/helpers/errors";
 import { IOrderRepository } from "../order.types";
 import { OrderRepository } from "../order.repository";
+import { ORDER_MESSAGES } from "../order.messages";
 
 export class CreateOrderService {
   constructor() {
@@ -12,7 +13,7 @@ export class CreateOrderService {
     const order = await this.orderRepository.findByTable(table);
 
     if (order) {
-      throw new ConflictError(`A mesa ${table} já está em uso`);
+      throw new ConflictError(ORDER_MESSAGES.TABLE_ALREADY_IN_USE);
     }
 
     const { id } = await this.orderRepository.create(table);

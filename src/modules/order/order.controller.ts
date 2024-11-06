@@ -1,80 +1,95 @@
 import { Request, Response } from "express";
 import { CreateOrderService } from "./services/create-order.services";
-import { z } from "zod";
+
 import { RemoveOrderService } from "./services/remove-order.services";
 import { SendOrderService } from "./services/send-order.services";
 import { FinishOrderService } from "./services/finish-order.services";
 import { ShowOrderService } from "./services/show-order.services";
 
-import { ListOrderInProductionCurrentService } from "./services/list-order-in-production-current.services";
+import { ListAllOrderService } from "./services/list-all-order.services";
+import {
+  CreateOrderSchema,
+  DeleteOrderSchema,
+  FinishOrderSchema,
+  SendOrderSchema,
+  ShowOrderSchema,
+} from "./order.schema";
+import { BadRequestError } from "../../shared/helpers/errors";
+import { GENERAL_MESSAGES } from "../../shared/helpers/general-messages";
 import { ListOrderInProductionService } from "./services/list-order-in-production.services";
 
 export class OrderController {
   async create(req: Request, res: Response) {
-    const { table } = z
-      .object({
-        table: z.coerce.number({ message: "O número da mesa é obrigatório" }),
-      })
-      .parse(req.body);
+    const { success, data } = CreateOrderSchema.safeParse(req.body);
+
+    if (!success) throw new BadRequestError(GENERAL_MESSAGES.FILL_DATA_ERROR);
 
     const createOrder = new CreateOrderService();
 
-    const { id } = await createOrder.execute(table);
+    const { id } = await createOrder.execute(data.table);
 
     res.status(201).json({ id });
   }
 
   async remove(req: Request, res: Response) {
+    const { success, data } = DeleteOrderSchema.safeParse(req.query);
+
+    if (!success) throw new BadRequestError(GENERAL_MESSAGES.FILL_DATA_ERROR);
+
     const removeOrder = new RemoveOrderService();
 
-    const id = req.query.id as string;
+    await removeOrder.execute(data.id);
 
-    await removeOrder.execute(id);
-
-    res.status(200).send({});
+    res.status(204).json();
   }
 
   async send(req: Request, res: Response) {
+    const { success, data } = SendOrderSchema.safeParse(req.query);
+
+    if (!success) throw new BadRequestError(GENERAL_MESSAGES.FILL_DATA_ERROR);
+
     const sendOrder = new SendOrderService();
 
-    const id = req.query.id as string;
+    await sendOrder.execute(data.id);
 
-    await sendOrder.execute(id);
-
-    res.status(200).send({});
+    res.status(204).json();
   }
 
   async finish(req: Request, res: Response) {
+    const { success, data } = FinishOrderSchema.safeParse(req.query);
+
+    if (!success) throw new BadRequestError(GENERAL_MESSAGES.FILL_DATA_ERROR);
+
     const finishOrder = new FinishOrderService();
 
-    const id = req.query.id as string;
+    await finishOrder.execute(data.id);
 
-    await finishOrder.execute(id);
-
-    res.status(200).send({});
+    res.status(204).json();
   }
 
   async show(req: Request, res: Response) {
+    const { success, data } = ShowOrderSchema.safeParse(req.query);
+
+    if (!success) throw new BadRequestError(GENERAL_MESSAGES.FILL_DATA_ERROR);
+
     const showOrder = new ShowOrderService();
 
-    const id = req.query.id as string;
+    const order = await showOrder.execute(data.id);
 
-    const order = await showOrder.execute(id);
+    res.status(200).json(order);
+  }
+
+  async listAll(req: Request, res: Response) {
+    const listAllOrders = new ListAllOrderService();
+
+    const order = await listAllOrders.execute();
 
     res.status(200).json(order);
   }
 
   async listInProduction(req: Request, res: Response) {
-    const listOrdersInProduction = new ListOrderInProductionService();
-
-    const order = await listOrdersInProduction.execute();
-
-    res.status(200).json(order);
-  }
-
-  async listInProductionCurrent(req: Request, res: Response) {
     const listOrdersInProductionCurrent =
-      new ListOrderInProductionCurrentService();
+      new ListOrderInProductionService();
 
     const order = await listOrdersInProductionCurrent.execute();
 

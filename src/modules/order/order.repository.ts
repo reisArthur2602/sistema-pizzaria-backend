@@ -5,20 +5,13 @@ import { IOrderRepository, OrderResponse } from "./order.types";
 export class OrderRepository implements IOrderRepository {
   async listAll(): Promise<OrderResponse[] | []> {
     return await db.order.findMany({
-      include: { Item: { include: { product: true } } },
-      orderBy: { created_at: "asc" },
-    });
-  }
-
-  async listInProduction(): Promise<OrderResponse[] | []> {
-    return await db.order.findMany({
       where: { draft: false },
       include: { Item: { include: { product: true } } },
       orderBy: { created_at: "asc" },
     });
   }
 
-  async listInProductionCurrent(): Promise<OrderResponse[] | []> {
+  async listInProduction(): Promise<OrderResponse[] | []> {
     const current = new Date();
 
     return await db.order.findMany({
