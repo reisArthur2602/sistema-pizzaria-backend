@@ -1,24 +1,27 @@
-import { z } from "zod";
+
 import { Request, Response } from "express";
 import { CreateProductService } from "./services/create-product.services";
 import { BadRequestError } from "../../shared/helpers/errors";
 import { ListProductService } from "./services/list-product.services";
 import { DeleteProductService } from "./services/delete-product.services";
 import { CreateProductSchema } from "./product.schema";
+import { GENERAL_MESSAGES } from "../../shared/helpers/general-messages";
+import { DeleteCategorySchema } from "../category/category.schema";
 
 export class ProductController {
   async create(req: Request, res: Response) {
-    const body = CreateProductSchema.parse(req.body);
+    const { success, data } = CreateProductSchema.safeParse(req.body);
 
-    if (!req.file) {
-      throw new BadRequestError("A imagem do produto é obrigatória");
-    }
+    const image_url = req.file?.filename;
+
+    if (!success || !image_url)
+      throw new BadRequestError(GENERAL_MESSAGES.FILL_DATA_ERROR);
 
     const createProduct = new CreateProductService();
 
-    await createProduct.execute({ ...body, image_url: req.file.filename });
+    await createProduct.execute({ ...data, image_url });
 
-    res.status(201).send({});
+    res.status(204).json();
   }
 
   async list(req: Request, res: Response) {
@@ -26,14 +29,18 @@ export class ProductController {
 
     const products = await listProduct.execute();
 
-    res.status(200).send(products);
+    res.status(200).json(products);
   }
 
   async delete(req: Request, res: Response) {
-    const id = req.query.id as string;
-    const deleteProduct = new DeleteProductService();
-    const products = await deleteProduct.execute(id);
+    const { success, data } = DeleteCategorySchema.safeParse(req.query);
 
-    res.status(200).send({ products });
+    if (!success) throw new BadRequestError(GENERAL_MESSAGES.FILL_DATA_ERROR);
+
+    const deleteProduct = new DeleteProductService();
+
+    await deleteProduct.execute(data.id);
+
+    res.status(204).json();
   }
 }

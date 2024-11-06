@@ -1,6 +1,5 @@
 import { ItemResponse } from "../item/item.types";
 
-
 export type OrderResponse = {
   id: string;
   table: number;
