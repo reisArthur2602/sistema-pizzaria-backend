@@ -1,6 +1,4 @@
-import { hash } from "bcrypt";
-import { BadRequestError } from "../../../shared/helpers/errors";
-import { IUserRepository, UserResponse, } from "../user.types";
+import { IUserRepository, UserResponse } from "../user.types";
 import { UserRepository } from "../user.repository";
 
 export class DetailsUserService {

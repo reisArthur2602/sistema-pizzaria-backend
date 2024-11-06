@@ -11,6 +11,7 @@ import {
   SessionUserResponse,
   UserRequest,
 } from "../user.types";
+import { USER_MESSAGES } from "../user.messages";
 
 export class SessionUserService {
   constructor() {
@@ -22,23 +23,23 @@ export class SessionUserService {
     email,
     password,
   }: UserRequest): Promise<SessionUserResponse> {
-    const user = await this.userRepository.findByEmail(email);
+    const hasUserWithEmail = await this.userRepository.findByEmail(email);
 
-    if (!user) {
-      throw new NotFoundError("O Usuário não foi encontrado");
+    if (!hasUserWithEmail) {
+      throw new NotFoundError(USER_MESSAGES.USER_NOT_FOUND);
     }
 
-    const passwordMatch = await compare(password, user.password);
+    const passwordMatch = await compare(password, hasUserWithEmail.password);
 
     if (!passwordMatch) {
-      throw new UnauthorizedError("A senha está incorreta");
+      throw new UnauthorizedError(USER_MESSAGES.INCORRECT_PASSWORD);
     }
 
     const token = sign({}, process.env.JWT_SECRET as string, {
-      subject: user.id,
+      subject: hasUserWithEmail.id,
       expiresIn: "7d",
     });
 
-    return { user, token };
+    return { user: hasUserWithEmail, token };
   }
 }

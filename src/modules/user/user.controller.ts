@@ -2,18 +2,24 @@ import { Request, Response } from "express";
 import { CreateUserService } from "./services/create-user.services";
 import { SessionUserService } from "./services/session-user.services";
 import { DetailsUserService } from "./services/details-user.services";
-import { z } from "zod";
+
 import { CreateUserSchema, SessionUserSchema } from "./user.schema";
+import { BadRequestError } from "../../shared/helpers/errors";
+import { GENERAL_MESSAGES } from "../../shared/helpers/general-messages";
 
 export class UserController {
   async create(req: Request, res: Response) {
-    const body = CreateUserSchema.parse(req.body);
-    
+    const { success, data } = CreateUserSchema.safeParse(req.body);
+
+    if (!success) {
+      throw new BadRequestError(GENERAL_MESSAGES.FILL_DATA_ERROR);
+    }
+
     const createUserService = new CreateUserService();
 
-    await createUserService.execute(body);
+    await createUserService.execute(data);
 
-    res.status(201).send({});
+    res.status(204).json();
   }
 
   async session(req: Request, res: Response) {
