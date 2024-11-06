@@ -2,26 +2,32 @@ import { Request, Response } from "express";
 
 import { CreateItemService } from "./services/create-item.services";
 import { RemoveItemService } from "./services/remove-item.services";
-import { CreateItemSchema } from "./item.schema";
+import { CreateItemSchema, RemoveItemSchema } from "./item.schema";
+import { BadRequestError } from "../../shared/helpers/errors";
+import { GENERAL_MESSAGES } from "../../shared/helpers/general-messages";
 
 export class ItemController {
   async create(req: Request, res: Response) {
-    const body = CreateItemSchema.parse(req.body);
+    const { success, data } = CreateItemSchema.safeParse(req.query);
+
+    if (!success) throw new BadRequestError(GENERAL_MESSAGES.FILL_DATA_ERROR);
 
     const createItem = new CreateItemService();
 
-    await createItem.execute(body);
+    await createItem.execute(data);
 
-    res.status(201).send({});
+    res.status(204).json();
   }
 
   async remove(req: Request, res: Response) {
-    const id = req.query.id as string;
+    const { success, data } = RemoveItemSchema.safeParse(req.query);
+
+    if (!success) throw new BadRequestError(GENERAL_MESSAGES.FILL_DATA_ERROR);
 
     const removeItem = new RemoveItemService();
 
-    await removeItem.execute(id);
+    await removeItem.execute(data.id);
 
-    res.status(200).send({});
+    res.status(204).json();
   }
 }

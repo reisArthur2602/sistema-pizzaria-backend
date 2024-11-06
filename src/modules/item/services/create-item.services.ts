@@ -5,6 +5,7 @@ import { IProductRepository } from "../../product/product.types";
 import { ProductRepository } from "../../product/product.repository";
 import { ItemRepository } from "../item.repository";
 import { IItemRepository, ItemRequest } from "../item.types";
+import { ITEM_MESSAGES } from "../item.message";
 
 export class CreateItemService {
   constructor() {
@@ -17,26 +18,28 @@ export class CreateItemService {
   private itemRepository: IItemRepository;
 
   async execute(data: ItemRequest) {
-    const order = await this.orderRepository.findById(data.order_id);
+    const hasOrderWithId = await this.orderRepository.findById(data.order_id);
 
-    if (!order) {
-      throw new NotFoundError("O pedido não foi encontrado");
+    if (!hasOrderWithId) {
+      throw new NotFoundError(ITEM_MESSAGES.ORDER_NOT_FOUND);
     }
 
-    const product = await this.productRepository.findById(data.product_id);
+    const hasProductWithId = await this.productRepository.findById(
+      data.product_id
+    );
 
-    if (!product) {
-      throw new NotFoundError("O produto não foi encontrado");
+    if (!hasProductWithId) {
+      throw new NotFoundError(ITEM_MESSAGES.PRODUCT_NOT_FOUND);
     }
 
-    const findItem = order.Item.find(
+    const productExistInOrder = hasOrderWithId.Item.find(
       (item) => item.product_id === data.product_id
     );
 
-    if (findItem) {
+    if (productExistInOrder) {
       return await this.itemRepository.updateQuantity(
-        findItem.id,
-        findItem.quantity + data.quantity
+        productExistInOrder.id,
+        productExistInOrder.quantity + data.quantity
       );
     }
 
