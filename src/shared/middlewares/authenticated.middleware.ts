@@ -7,7 +7,7 @@ interface Payload {
   sub: string;
 }
 
-export const isAuthenticated = (
+export const AuthenticatedMiddleware = (
   req: Request,
   res: Response,
   next: NextFunction

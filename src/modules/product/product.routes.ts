@@ -2,7 +2,7 @@ import { Router } from "express";
 import { ProductController } from "./product.controller";
 import multer from "multer";
 import uploadConfig from "../../shared/config/multer";
-import { isAuthenticated } from "../../shared/middlewares/isAuthenticated";
+import { AuthenticatedMiddleware } from "../../shared/middlewares/authenticated.middleware";
 
 export const productRoutes = Router();
 const productController = new ProductController();
@@ -12,8 +12,8 @@ productRoutes.get("/", productController.list);
 
 productRoutes.post(
   "/",
-  isAuthenticated,
+  AuthenticatedMiddleware,
   upload.single("file"),
   productController.create
 );
-productRoutes.delete("/", isAuthenticated, productController.delete);
+productRoutes.delete("/", AuthenticatedMiddleware, productController.delete);

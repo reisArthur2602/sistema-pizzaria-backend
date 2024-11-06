@@ -5,7 +5,7 @@ import cors from "cors";
 import path from "path";
 
 import bodyParser from "body-parser";
-import { ErrorHandler } from "../middlewares/errosHandler";
+import { ErrorMiddleware } from "../middlewares/erros.middleware";
 import { MainRouter } from "./main.routes";
 
 const app = express();
@@ -20,7 +20,7 @@ app.use(
   "/files",
   express.static(path.resolve(__dirname, "..", "..", "..", "tmp"))
 );
-app.use(ErrorHandler);
+app.use(ErrorMiddleware);
 
 const PORT = process.env.PORT;
 
