@@ -22,6 +22,10 @@ export class CategoryRepository implements ICategoryRepository {
     await db.category.create({ data: { name } });
   }
 
+  async edit(id: string, name: string): Promise<void> {
+    await db.category.update({ where: { id }, data: name });
+  }
+
   async list(): Promise<CategoryResponse[] | []> {
     return await db.category.findMany({
       include: { Product: true },

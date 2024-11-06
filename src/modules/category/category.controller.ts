@@ -3,9 +3,14 @@ import { Request, Response } from "express";
 import { CreateCategoryService } from "./services/create-category.services";
 import { ListCategoryService } from "./services/list-category.services";
 import { DeleteCategoryService } from "./services/delete-category.services";
-import { CreateCategorySchema, DeleteCategorySchema } from "./category.schema";
+import {
+  CreateCategorySchema,
+  DeleteCategorySchema,
+  EditCategorySchema,
+} from "./category.schema";
 import { GENERAL_MESSAGES } from "../../shared/helpers/general-messages";
 import { BadRequestError } from "../../shared/helpers/errors";
+import { EditCategoryService } from "./services/edit-category.services";
 
 export class CategoryController {
   async create(req: Request, res: Response) {
@@ -30,12 +35,24 @@ export class CategoryController {
 
   async delete(req: Request, res: Response) {
     const { success, data } = DeleteCategorySchema.safeParse(req.query);
-    
+
     if (!success) throw new BadRequestError(GENERAL_MESSAGES.FILL_DATA_ERROR);
 
     const deleteCategory = new DeleteCategoryService();
 
     await deleteCategory.execute(data.id);
+
+    res.status(204).json();
+  }
+
+  async edit(req: Request, res: Response) {
+    const { success, data } = EditCategorySchema.safeParse(req.query);
+
+    if (!success) throw new BadRequestError(GENERAL_MESSAGES.FILL_DATA_ERROR);
+
+    const editCategory = new EditCategoryService();
+
+    await editCategory.execute(data.id, data.name);
 
     res.status(204).json();
   }
