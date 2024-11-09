@@ -8,7 +8,9 @@ import { GENERAL_MESSAGES } from "../../shared/helpers/general-messages";
 
 export class ItemController {
   async create(req: Request, res: Response) {
-    const { success, data } = CreateItemSchema.safeParse(req.query);
+    console.log(req.body)
+
+    const { success, data } = CreateItemSchema.safeParse(req.body);
 
     if (!success) throw new BadRequestError(GENERAL_MESSAGES.FILL_DATA_ERROR);
 

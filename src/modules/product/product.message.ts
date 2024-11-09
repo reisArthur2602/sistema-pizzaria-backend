@@ -5,4 +5,5 @@ export const PRODUCT_MESSAGES = {
     "Este nome já está associado a outro produto. Tente um nome diferente.",
   CATEGORY_NOT_FOUND:
     "Categoria do produto não encontrada. Por favor, selecione uma categoria válida.",
+  
 };

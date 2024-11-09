@@ -88,10 +88,10 @@ export class OrderController {
   }
 
   async listInProduction(req: Request, res: Response) {
-    const listOrdersInProductionCurrent =
+    const listOrdersInProduction =
       new ListOrderInProductionService();
 
-    const order = await listOrdersInProductionCurrent.execute();
+    const order = await listOrdersInProduction.execute();
 
     res.status(200).json(order);
   }

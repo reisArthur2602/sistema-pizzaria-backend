@@ -13,14 +13,13 @@ export class OrderRepository implements IOrderRepository {
 
   async listInProduction(): Promise<OrderResponse[] | []> {
     const current = new Date();
-
     return await db.order.findMany({
       where: {
         AND: [
           { status: false, draft: false },
           {
             created_at: {
-              gte: startOfDay(current) && current,
+              gte: startOfDay(current),
               lte: endOfDay(current),
             },
           },

@@ -1,4 +1,3 @@
-
 import { Request, Response } from "express";
 import { CreateProductService } from "./services/create-product.services";
 import { BadRequestError } from "../../shared/helpers/errors";
@@ -7,19 +6,56 @@ import { DeleteProductService } from "./services/delete-product.services";
 import { CreateProductSchema } from "./product.schema";
 import { GENERAL_MESSAGES } from "../../shared/helpers/general-messages";
 import { DeleteCategorySchema } from "../category/category.schema";
+import { UploadedFile } from "express-fileupload";
+import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
 
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET,
+});
 export class ProductController {
+
+  static async uploadImageToCloudinary(file: UploadedFile) {
+    return new Promise<UploadApiResponse>((resolve, reject) => {
+      cloudinary.uploader
+        .upload_stream({}, (error, result) => {
+          if (error) {
+            reject(new BadRequestError(GENERAL_MESSAGES.IMAGE_UPLOAD_ERROR));
+            return;
+          }
+          resolve(result as UploadApiResponse);
+        })
+        .end(file.data);
+    });
+  }
+
   async create(req: Request, res: Response) {
     const { success, data } = CreateProductSchema.safeParse(req.body);
 
-    const image_url = req.file?.filename;
-
-    if (!success || !image_url)
+    if (!success || !req.files)
       throw new BadRequestError(GENERAL_MESSAGES.FILL_DATA_ERROR);
+
+    const file = req.files["file"] as UploadedFile;
+
+    const resultSendImageToStorage =  await new Promise<UploadApiResponse>((resolve, reject) => {
+      cloudinary.uploader
+        .upload_stream({}, (error, result) => {
+          if (error) {
+            reject(new BadRequestError(GENERAL_MESSAGES.IMAGE_UPLOAD_ERROR));
+            return;
+          }
+          resolve(result as UploadApiResponse);
+        })
+        .end(file.data);
+    });
 
     const createProduct = new CreateProductService();
 
-    await createProduct.execute({ ...data, image_url });
+    await createProduct.execute({
+      ...data,
+      image_url: resultSendImageToStorage.url,
+    });
 
     res.status(204).json();
   }
