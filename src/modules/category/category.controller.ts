@@ -8,19 +8,16 @@ import {
   DeleteCategorySchema,
   EditCategorySchema,
 } from "./category.schema";
-import { GENERAL_MESSAGES } from "../../shared/helpers/general-messages";
-import { BadRequestError } from "../../shared/helpers/errors";
+
 import { EditCategoryService } from "./services/edit-category.services";
 
 export class CategoryController {
   async create(req: Request, res: Response) {
-    const { success, data } = CreateCategorySchema.safeParse(req.body);
-
-    if (!success) throw new BadRequestError(GENERAL_MESSAGES.FILL_DATA_ERROR);
+    const body = CreateCategorySchema.parse(req.body);
 
     const createCategory = new CreateCategoryService();
 
-    await createCategory.execute(data.name);
+    await createCategory.execute(body.name);
 
     res.status(204).json();
   }
@@ -34,25 +31,21 @@ export class CategoryController {
   }
 
   async delete(req: Request, res: Response) {
-    const { success, data } = DeleteCategorySchema.safeParse(req.query);
-
-    if (!success) throw new BadRequestError(GENERAL_MESSAGES.FILL_DATA_ERROR);
+    const query = DeleteCategorySchema.parse(req.query);
 
     const deleteCategory = new DeleteCategoryService();
 
-    await deleteCategory.execute(data.id);
+    await deleteCategory.execute(query.id);
 
     res.status(204).json();
   }
 
   async edit(req: Request, res: Response) {
-    const { success, data } = EditCategorySchema.safeParse(req.query);
-
-    if (!success) throw new BadRequestError(GENERAL_MESSAGES.FILL_DATA_ERROR);
+    const body = EditCategorySchema.parse(req.body);
 
     const editCategory = new EditCategoryService();
 
-    await editCategory.execute(data.id, data.name);
+    await editCategory.execute(body.id, body.name);
 
     res.status(204).json();
   }

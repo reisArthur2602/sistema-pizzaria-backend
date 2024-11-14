@@ -4,7 +4,7 @@ import express from "express";
 import cors from "cors";
 
 import bodyParser from "body-parser";
-import { ErrorMiddleware } from "../middlewares/erros.middleware";
+import { ErrorMiddleware } from "../middlewares/error.middleware";
 import { MainRouter } from "./main.routes";
 import fileUpload from "express-fileupload";
 

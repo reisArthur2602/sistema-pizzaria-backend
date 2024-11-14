@@ -14,67 +14,56 @@ import {
   SendOrderSchema,
   ShowOrderSchema,
 } from "./order.schema";
-import { BadRequestError } from "../../shared/helpers/errors";
-import { GENERAL_MESSAGES } from "../../shared/helpers/general-messages";
+
 import { ListOrderInProductionService } from "./services/list-order-in-production.services";
 
 export class OrderController {
   async create(req: Request, res: Response) {
-    const { success, data } = CreateOrderSchema.safeParse(req.body);
-
-    if (!success) throw new BadRequestError(GENERAL_MESSAGES.FILL_DATA_ERROR);
+    const body = CreateOrderSchema.parse(req.body);
 
     const createOrder = new CreateOrderService();
 
-    const { id } = await createOrder.execute(data.table);
+    const { id } = await createOrder.execute(body.table);
 
     res.status(201).json({ id });
   }
 
   async remove(req: Request, res: Response) {
-    const { success, data } = DeleteOrderSchema.safeParse(req.query);
-
-    if (!success) throw new BadRequestError(GENERAL_MESSAGES.FILL_DATA_ERROR);
+    const query = DeleteOrderSchema.parse(req.query);
 
     const removeOrder = new RemoveOrderService();
 
-    await removeOrder.execute(data.id);
+    await removeOrder.execute(query.id);
 
     res.status(204).json();
   }
 
   async send(req: Request, res: Response) {
-    const { success, data } = SendOrderSchema.safeParse(req.query);
-
-    if (!success) throw new BadRequestError(GENERAL_MESSAGES.FILL_DATA_ERROR);
+    const query = SendOrderSchema.parse(req.query);
 
     const sendOrder = new SendOrderService();
 
-    await sendOrder.execute(data.id);
+    await sendOrder.execute(query.id);
 
     res.status(204).json();
   }
 
   async finish(req: Request, res: Response) {
-    const { success, data } = FinishOrderSchema.safeParse(req.query);
-
-    if (!success) throw new BadRequestError(GENERAL_MESSAGES.FILL_DATA_ERROR);
+    const query = FinishOrderSchema.parse(req.query);
 
     const finishOrder = new FinishOrderService();
 
-    await finishOrder.execute(data.id);
+    await finishOrder.execute(query.id);
 
     res.status(204).json();
   }
 
   async show(req: Request, res: Response) {
-    const { success, data } = ShowOrderSchema.safeParse(req.query);
-
-    if (!success) throw new BadRequestError(GENERAL_MESSAGES.FILL_DATA_ERROR);
+    const query = ShowOrderSchema.parse(req.query);
 
     const showOrder = new ShowOrderService();
 
-    const order = await showOrder.execute(data.id);
+    const order = await showOrder.execute(query.id);
 
     res.status(200).json(order);
   }
@@ -88,8 +77,7 @@ export class OrderController {
   }
 
   async listInProduction(req: Request, res: Response) {
-    const listOrdersInProduction =
-      new ListOrderInProductionService();
+    const listOrdersInProduction = new ListOrderInProductionService();
 
     const order = await listOrdersInProduction.execute();
 

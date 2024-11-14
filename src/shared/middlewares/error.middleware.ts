@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { ApplicationError } from "../helpers/errors";
 import { ZodError } from "zod";
+import { GENERAL_MESSAGES } from "../helpers/general-messages";
 
 export const ErrorMiddleware = (
   err: Error & Partial<ApplicationError>,
@@ -9,18 +10,13 @@ export const ErrorMiddleware = (
   next: NextFunction
 ) => {
   if (err instanceof ZodError) {
-    const validationErrors = err.errors.map((err) => ({
-      path: err.path[0],
-      message: err.message,
-    }));
-    console.error(validationErrors);
-    res.status(400).json(validationErrors);
+    res.status(400).json({ message: GENERAL_MESSAGES.FILL_DATA_ERROR });
   } else {
     const statusCode = err.statusCode ?? 500;
 
-    const message = err.message ?? "Internal Server Error";
+    const message = err.message ?? GENERAL_MESSAGES.INTERNAL_SERVER_ERROR;
 
-    console.error({ message });
+    console.error({ statusCode: err.statusCode, message });
 
     res.status(statusCode).json({ message });
   }

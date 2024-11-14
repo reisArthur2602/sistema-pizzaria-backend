@@ -15,45 +15,31 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_SECRET,
 });
 export class ProductController {
-
-  static async uploadImageToCloudinary(file: UploadedFile) {
-    return new Promise<UploadApiResponse>((resolve, reject) => {
-      cloudinary.uploader
-        .upload_stream({}, (error, result) => {
-          if (error) {
-            reject(new BadRequestError(GENERAL_MESSAGES.IMAGE_UPLOAD_ERROR));
-            return;
-          }
-          resolve(result as UploadApiResponse);
-        })
-        .end(file.data);
-    });
-  }
-
   async create(req: Request, res: Response) {
-    const { success, data } = CreateProductSchema.safeParse(req.body);
+    const body = CreateProductSchema.parse(req.body);
 
-    if (!success || !req.files)
-      throw new BadRequestError(GENERAL_MESSAGES.FILL_DATA_ERROR);
+    if (!req.files) throw new BadRequestError(GENERAL_MESSAGES.FILL_DATA_ERROR);
 
     const file = req.files["file"] as UploadedFile;
 
-    const resultSendImageToStorage =  await new Promise<UploadApiResponse>((resolve, reject) => {
-      cloudinary.uploader
-        .upload_stream({}, (error, result) => {
-          if (error) {
-            reject(new BadRequestError(GENERAL_MESSAGES.IMAGE_UPLOAD_ERROR));
-            return;
-          }
-          resolve(result as UploadApiResponse);
-        })
-        .end(file.data);
-    });
+    const resultSendImageToStorage = await new Promise<UploadApiResponse>(
+      (resolve, reject) => {
+        cloudinary.uploader
+          .upload_stream({}, (error, result) => {
+            if (error) {
+              reject(new BadRequestError(GENERAL_MESSAGES.IMAGE_UPLOAD_ERROR));
+              return;
+            }
+            resolve(result as UploadApiResponse);
+          })
+          .end(file.data);
+      }
+    );
 
     const createProduct = new CreateProductService();
 
     await createProduct.execute({
-      ...data,
+      ...body,
       image_url: resultSendImageToStorage.url,
     });
 
@@ -69,13 +55,11 @@ export class ProductController {
   }
 
   async delete(req: Request, res: Response) {
-    const { success, data } = DeleteCategorySchema.safeParse(req.query);
-
-    if (!success) throw new BadRequestError(GENERAL_MESSAGES.FILL_DATA_ERROR);
+    const query = DeleteCategorySchema.parse(req.query);
 
     const deleteProduct = new DeleteProductService();
 
-    await deleteProduct.execute(data.id);
+    await deleteProduct.execute(query.id);
 
     res.status(204).json();
   }
