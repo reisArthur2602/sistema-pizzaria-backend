@@ -3,6 +3,7 @@ export type UserResponse = {
   email: string;
   password: string;
 };
+
 export type UserRequest = {
   email: string;
   password: string;

@@ -7,6 +7,5 @@ export const productRoutes = Router();
 const productController = new ProductController();
 
 productRoutes.get("/", productController.list);
-
 productRoutes.post("/", AuthenticatedMiddleware, productController.create);
 productRoutes.delete("/", AuthenticatedMiddleware, productController.delete);

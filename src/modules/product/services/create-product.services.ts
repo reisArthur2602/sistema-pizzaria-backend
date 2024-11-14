@@ -18,7 +18,7 @@ export class CreateProductService {
     const category = await this.categoryRepository.findById(data.category_id);
 
     if (!category) {
-      throw new NotFoundError(PRODUCT_MESSAGES.PRODUCT_NOT_FOUND);
+      throw new NotFoundError(PRODUCT_MESSAGES.CATEGORY_NOT_FOUND);
     }
 
     const product = await this.productRepository.findByName(data.name);
