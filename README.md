@@ -71,7 +71,7 @@ npm run dev
 **REQUEST**
 
 ```json
-body: {
+"body": {
 	"email": "arthur@gmail.com",
 	"password": "123456"
 }
@@ -82,7 +82,7 @@ body: {
 **REQUEST**
 
 ```json
-body: {
+"body": {
   "email": "arthur@gmail.com",
   "password": "123456"
 }
@@ -126,7 +126,7 @@ body: {
 **REQUEST**
 
 ```json
-body: {
+"body": {
   "name":"pizzas"
 }
 ```
@@ -161,7 +161,7 @@ body: {
 **REQUEST**
 
 ```json
-query: {
+"query": {
   "id":"aa06aeb7-ecb3-4b4c-8bf0-1e56f89301c3"
 }
 ```
@@ -179,7 +179,7 @@ query: {
 **REQUEST**
 
 ```json
-body:{
+"body":{
     "name": "sorvete de chocolate",
     "price": 9,
     "category_id": "fa3d2824-ce8e-467d-a620-d88d6cd70594",
@@ -223,7 +223,7 @@ body:{
 **REQUEST**
 
 ```json
-query: {
+"query": {
   "id":"40257181-a127-45af-ad68-4aef5753457e"
 }
 ```
@@ -245,7 +245,7 @@ query: {
 **REQUEST**
 
 ```json
- body: {
+ "body": {
   "table": 2
 }
 ```
@@ -331,7 +331,7 @@ query: {
 **REQUEST**
 
 ```json
- query: {
+ "query": {
   "id":"f3f50332-4d18-437d-a4d7-bd91dfb220d2"
 }
 ```
@@ -371,7 +371,7 @@ query: {
 **REQUEST**
 
 ```json
-query: {
+"query": {
   "id":"f3f50332-4d18-437d-a4d7-bd91dfb220d2"
 }
 ```
@@ -381,7 +381,7 @@ query: {
 **REQUEST**
 
 ```json
-query: {
+"query": {
   "id":"f3f50332-4d18-437d-a4d7-bd91dfb220d2"
 }
 ```
@@ -391,7 +391,7 @@ query: {
 **REQUEST**
 
 ```json
-query: {
+"query": {
   "id":"f3f50332-4d18-437d-a4d7-bd91dfb220d2"
 }
 ```
@@ -408,7 +408,7 @@ query: {
 **REQUEST**
 
 ```json
-body: {
+"body": {
   "quantity":1,
   "order_id":"f3f50332-4d18-437d-a4d7-bd91dfb220d2",
   "product_id":"40257181-a127-45af-ad68-4aef5753457e"
@@ -420,7 +420,7 @@ body: {
 **REQUEST**
 
 ```json
-query: {
+"query": {
   "id":"c786f6c6-5ed4-4aba-804d-c7e37073d572"
 }
 ```

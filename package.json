@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx watch src/shared/http/server.ts"
+    "dev": "tsx watch src/shared/http/server.ts",
+    "build": "tsup src && prisma migrate deploy",
+    "start": "node dist/shared/http/server.js"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +24,7 @@
     "express-async-errors": "^3.1.1",
     "express-fileupload": "^1.5.1",
     "jsonwebtoken": "^9.0.2",
+    "tsup": "^8.3.5",
     "zod": "^3.23.8"
   },
   "devDependencies": {
