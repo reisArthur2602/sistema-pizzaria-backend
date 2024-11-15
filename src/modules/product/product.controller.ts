@@ -7,13 +7,9 @@ import { CreateProductSchema } from "./product.schema";
 import { GENERAL_MESSAGES } from "../../shared/helpers/general-messages";
 import { DeleteCategorySchema } from "../category/category.schema";
 import { UploadedFile } from "express-fileupload";
-import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
 
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_NAME,
-  api_key: process.env.CLOUDINARY_KEY,
-  api_secret: process.env.CLOUDINARY_SECRET,
-});
+import CloudinaryServices from "../../shared/config/cloudinary";
+
 export class ProductController {
   async create(req: Request, res: Response) {
     const body = CreateProductSchema.parse(req.body);
@@ -22,25 +18,13 @@ export class ProductController {
 
     const file = req.files["file"] as UploadedFile;
 
-    const resultSendImageToStorage = await new Promise<UploadApiResponse>(
-      (resolve, reject) => {
-        cloudinary.uploader
-          .upload_stream({}, (error, result) => {
-            if (error) {
-              reject(new BadRequestError(GENERAL_MESSAGES.IMAGE_UPLOAD_ERROR));
-              return;
-            }
-            resolve(result as UploadApiResponse);
-          })
-          .end(file.data);
-      }
-    );
+    const uploadImage = await CloudinaryServices.uploadImage(file);
 
     const createProduct = new CreateProductService();
 
     await createProduct.execute({
       ...body,
-      image_url: resultSendImageToStorage.url,
+      image_url: uploadImage,
     });
 
     res.status(204).json();
