@@ -1,4 +1,4 @@
-<h1 align="center" style="font-weight: bold;">Fatto a mano - API 💻</h1>
+<h1 align="center" style="font-weight: bold;">Sistema Pizzaria 🍕</h1>
 
 <p align="center">
  <a href="#tech">Tecnologias</a> • 
@@ -7,12 +7,12 @@
   <a href="#category-routes">Category Endpoints</a> • 
   <a href="#product-routes">Products Endpoints</a> • 
   <a href="#order-routes">Order Endpoints</a> • 
-  <a href="#item-routes">Item Endpoints</a> • 
+  <a href="#item-routes">Item Endpoints</a> 
  
 </p>
 
 <p align="center">
-    <b>Desenvolvimento de uma api de gestão para pizzaria</b>
+    <b>Desenvolvimento de uma plataforma de gestão de pizzaria</b>
 </p>
 
 <h2 id="technologies">💻 Tecnologias</h2>
