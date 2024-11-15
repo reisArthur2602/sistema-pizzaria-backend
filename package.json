@@ -4,8 +4,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/shared/http/server.ts",
-    "build": "tsup src && prisma migrate deploy",
-    "start": "node dist/shared/http/server.js"
+    "build": "tsup src && prisma migrate deploy && npm run prisma:seed",
+    "start": "node dist/shared/http/server.js",
+    "prisma:seed": "tsx prisma/seed.ts"
   },
   "keywords": [],
   "author": "",
