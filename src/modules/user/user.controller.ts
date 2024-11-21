@@ -7,6 +7,7 @@ import { CreateUserSchema, SessionUserSchema } from "./user.schema";
 
 
 export class UserController {
+  
   async create(req: Request, res: Response) {
     const body = CreateUserSchema.parse(req.body);
 

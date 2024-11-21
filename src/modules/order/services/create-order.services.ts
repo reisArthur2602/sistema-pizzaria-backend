@@ -10,6 +10,7 @@ export class CreateOrderService {
   private orderRepository: IOrderRepository;
 
   async execute(table: number): Promise<{ id: string }> {
+    
     const order = await this.orderRepository.findByTable(table);
 
     if (order) {

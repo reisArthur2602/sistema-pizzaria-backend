@@ -1,10 +1,12 @@
+
 import { ItemResponse } from "../item/item.types";
+
+export type OrderStatus = "DRAFT" | "PRODUCTION" | "COMPLETED"
 
 export type OrderResponse = {
   id: string;
   table: number;
-  status: boolean;
-  draft: boolean;
+  status: OrderStatus;
   created_at: Date;
   Item: ItemResponse[] | [];
 };
@@ -12,10 +14,8 @@ export type OrderResponse = {
 export interface IOrderRepository {
   findByTable(table: number): Promise<OrderResponse | null>;
   findById(id: string): Promise<OrderResponse | null>;
-  listAll(): Promise<OrderResponse[] | []>;
-  listInProduction(): Promise<OrderResponse[] | []>;
+  listAll(status?:OrderStatus): Promise<OrderResponse[] | []>;
   create(table: number): Promise<{ id: string }>;
   remove(id: string): Promise<void>;
-  send(id: string): Promise<void>;
-  finish(id: string): Promise<void>;
+  update(id: string, status: OrderStatus): Promise<void>;
 }
