@@ -230,15 +230,14 @@ npm run dev
 
 <h2 id="order-routes">📍 Order Endpoints</h2>
 
-| Rotas                             | Descrição                                                                                                                              |
-| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| <kbd>POST /order</kbd>            | Abrir um pedido [Detalhes da requisição](#create-order)                                                                                |
-| <kbd>GET /order</kbd>             | Listar todos os pedidos e seus itens não que estejam em rascunho [Detalhes da requisição](#list-order)                                 |
-| <kbd>GET /order/current</kbd>     | Listar todos os pedidos e seus itens não que estejam em rascunho para a data atual [Detalhes da requisição](#list-order-in-production) |
-| <kbd>GET /order?id</kbd>          | Buscar pedido [Detalhes da requisição](#show-order)                                                                                    |
-| <kbd>PATCH /order/send?id</kbd>   | Enviar pedido para produção [Detalhes da requisição](#send-order)                                                                      |
-| <kbd>PATCH /order/finish?id</kbd> | Finalizar pedido [Detalhes da requisição](#finish-order)                                                                               |
-| <kbd>DELETE /order?id</kbd>       | Deletar pedido [Detalhes da requisição](#delete-order)                                                                                 |
+| Rotas                  | Descrição                                                                 |
+| ---------------------- | ------------------------------------------------------------------------- |
+| <kbd>POST /order</kbd> | Abrir um pedido [Detalhes da requisição](#create-order)                   |
+| <kbd>GET /order</kbd>  | Listar todos os pedidos e seus itens[Detalhes da requisição](#list-order) |
+
+| <kbd>GET /order?id</kbd> | Buscar pedido [Detalhes da requisição](#show-order) |
+| <kbd>PATCH /order/:id/:status</kbd> | Alterar status do pedido [Detalhes da requisição](#update-order) |
+| <kbd>DELETE /order?id</kbd> | Deletar pedido [Detalhes da requisição](#delete-order) |
 
 <h3 id="create-order">POST /order</h3>
 
@@ -267,42 +266,7 @@ npm run dev
   {
     "id": "f3f50332-4d18-437d-a4d7-bd91dfb220d2",
     "table": 10,
-    "status": false,
-    "draft": false,
-    "created_at": "2024-11-14T18:14:34.346Z",
-    "Item": [
-      {
-        "id": "c786f6c6-5ed4-4aba-804d-c7e37073d572",
-        "order_id": "f3f50332-4d18-437d-a4d7-bd91dfb220d2",
-        "product_id": "40257181-a127-45af-ad68-4aef5753457e",
-        "quantity": 1,
-        "created_at": "2024-11-14T18:19:32.238Z",
-        "product": {
-          "id": "40257181-a127-45af-ad68-4aef5753457e",
-          "category_id": "fa3d2824-ce8e-467d-a620-d88d6cd70594",
-          "name": "sorvete de chocolate",
-          "description": "sorvete de chocolate",
-          "image_url": "http://res.cloudinary.com/ddetuuxug/image/upload/v1731607558/igxaswoujpqqx0r5f6bn.png",
-          "price": 910,
-          "created_at": "2024-11-14T18:06:01.403Z"
-        }
-      }
-    ]
-  }
-]
-```
-
-<h3 id="list-order-in-production">GET /order/current</h3>
-
-**RESPONSE**
-
-```json
-[
-  {
-    "id": "f3f50332-4d18-437d-a4d7-bd91dfb220d2",
-    "table": 10,
-    "status": false,
-    "draft": false,
+    "status": "PRODUCTION",
     "created_at": "2024-11-14T18:14:34.346Z",
     "Item": [
       {
@@ -342,8 +306,7 @@ npm run dev
 {
   "id": "f3f50332-4d18-437d-a4d7-bd91dfb220d2",
   "table": 10,
-  "status": false,
-  "draft": false,
+  "status": "PRODUCTION",
   "created_at": "2024-11-14T18:14:34.346Z",
   "Item": [
     {
@@ -366,23 +329,14 @@ npm run dev
 }
 ```
 
-<h3 id="send-order">PATCH /order/send?id</h3>
+<h3 id="update-order">PATCH /order/:id/:status</h3>
 
 **REQUEST**
 
 ```json
-"query": {
-  "id":"f3f50332-4d18-437d-a4d7-bd91dfb220d2"
-}
-```
-
-<h3 id="finish-order">PATCH /order/finish?id</h3>
-
-**REQUEST**
-
-```json
-"query": {
-  "id":"f3f50332-4d18-437d-a4d7-bd91dfb220d2"
+"params": {
+  "id":"f3f50332-4d18-437d-a4d7-bd91dfb220d2",
+  "status":"PRODUCTION",
 }
 ```
 

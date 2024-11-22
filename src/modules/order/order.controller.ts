@@ -2,20 +2,18 @@ import { Request, Response } from "express";
 import { CreateOrderService } from "./services/create-order.services";
 
 import { RemoveOrderService } from "./services/remove-order.services";
-import { SendOrderService } from "./services/send-order.services";
-import { FinishOrderService } from "./services/finish-order.services";
+import { UpdateOrderService } from "./services/update-order.services";
 import { ShowOrderService } from "./services/show-order.services";
 
 import { ListAllOrderService } from "./services/list-all-order.services";
 import {
   CreateOrderSchema,
   DeleteOrderSchema,
-  FinishOrderSchema,
-  SendOrderSchema,
+  FilterOrderSchema,
   ShowOrderSchema,
+  UpdateOrderSchema,
 } from "./order.schema";
-
-import { ListOrderInProductionService } from "./services/list-order-in-production.services";
+import { OrderStatus } from "./order.types";
 
 export class OrderController {
   async create(req: Request, res: Response) {
@@ -38,22 +36,12 @@ export class OrderController {
     res.status(204).json();
   }
 
-  async send(req: Request, res: Response) {
-    const query = SendOrderSchema.parse(req.query);
+  async update(req: Request, res: Response) {
+    const { id, status } = UpdateOrderSchema.parse(req.params);
 
-    const sendOrder = new SendOrderService();
+    const updateOrder = new UpdateOrderService();
 
-    await sendOrder.execute(query.id);
-
-    res.status(204).json();
-  }
-
-  async finish(req: Request, res: Response) {
-    const query = FinishOrderSchema.parse(req.query);
-
-    const finishOrder = new FinishOrderService();
-
-    await finishOrder.execute(query.id);
+    await updateOrder.execute(id, status);
 
     res.status(204).json();
   }
@@ -69,18 +57,12 @@ export class OrderController {
   }
 
   async listAll(req: Request, res: Response) {
+    const query = FilterOrderSchema.parse(req.query);
+
     const listAllOrders = new ListAllOrderService();
 
-    const order = await listAllOrders.execute();
+    const orders = await listAllOrders.execute(query.status);
 
-    res.status(200).json(order);
-  }
-
-  async listInProduction(req: Request, res: Response) {
-    const listOrdersInProduction = new ListOrderInProductionService();
-
-    const order = await listOrdersInProduction.execute();
-
-    res.status(200).json(order);
+    res.status(200).json(orders);
   }
 }

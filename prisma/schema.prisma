@@ -40,11 +40,10 @@ model Product {
 }
 
 model Order {
-  id         String   @id @default(uuid())
+  id         String      @id @default(uuid())
   table      Int
-  status     Boolean  @default(false)
-  draft      Boolean  @default(true)
-  created_at DateTime @default(now())
+  status     OrderStatus @default(DRAFT)
+  created_at DateTime    @default(now())
   Item       Item[]
 
   @@map("orders")
@@ -60,4 +59,10 @@ model Item {
   product    Product  @relation(fields: [product_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("items")
+}
+
+enum OrderStatus {
+  DRAFT
+  PRODUCTION
+  COMPLETED
 }

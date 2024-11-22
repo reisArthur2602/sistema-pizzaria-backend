@@ -1,4 +1,4 @@
-import { IOrderRepository } from "../order.types";
+import { IOrderRepository, OrderStatus } from "../order.types";
 import { OrderRepository } from "../order.repository";
 
 export class ListAllOrderService {
@@ -7,7 +7,9 @@ export class ListAllOrderService {
   }
   private orderRepository: IOrderRepository;
 
-  async execute() {
-    return await this.orderRepository.listAll();
+  async execute(status?: OrderStatus) {
+    const orders = await this.orderRepository.listAll(status);
+    
+    return orders;
   }
 }

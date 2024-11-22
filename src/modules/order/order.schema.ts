@@ -1,3 +1,4 @@
+import { OrderStatus } from "@prisma/client";
 import { z } from "zod";
 
 export const CreateOrderSchema = z.object({
@@ -8,14 +9,15 @@ export const DeleteOrderSchema = z.object({
   id: z.string().min(1),
 });
 
-export const SendOrderSchema = z.object({
+export const UpdateOrderSchema = z.object({
   id: z.string().min(1),
-});
-
-export const FinishOrderSchema = z.object({
-  id: z.string().min(1),
+  status: z.nativeEnum(OrderStatus),
 });
 
 export const ShowOrderSchema = z.object({
   id: z.string().min(1),
+});
+
+export const FilterOrderSchema = z.object({
+  status: z.nativeEnum(OrderStatus).optional(),
 });
